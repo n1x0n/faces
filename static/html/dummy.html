@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+    <link href='../css/site.css' rel='stylesheet' type='text/css'>
+    <meta charset='utf-8'>
+    <meta content='width=device-width, initial-scale=1' name='viewport'>
+</head>
+
+<body>
+    <div class='container'>
+        <ul class="nav nav-tabs">
+            <li class="nav-item dropdown d-block d-sm-none">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    Select page
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item active" id="upload-drop" data-toggle="tab" href="#upload" role="tab"
+                        aria-controls="upload" aria-selected="true">Upload new photo</a>
+                    <a class="dropdown-item" id="existing-drop" data-toggle="tab" href="#existing" role="tab"
+                        aria-controls="existing" aria-selected="false">Existing photos</a>
+                    <a class="dropdown-item" id="about-drop" data-toggle="tab" href="#about" role="tab"
+                        aria-controls="about" aria-selected="false">About</a>
+                </div>
+            </li>
+            <li class="nav-item d-none d-sm-block">
+                <a class="nav-link active" id="upload-tab" data-toggle="tab" href="#upload" role="tab"
+                    aria-controls="upload" aria-selected="true">Upload new photo</a>
+            </li>
+            <li class="nav-item d-none d-sm-block">
+                <a class="nav-link" id="existing-tab" data-toggle="tab" href="#existing" role="tab"
+                    aria-controls="existing" aria-selected="false">Existing photos</a>
+            </li>
+            <li class="nav-item d-none d-sm-block">
+                <a class="nav-link" id="about-tab" data-toggle="tab" href="#about" role="tab" aria-controls="about"
+                    aria-selected="false">About</a>
+            </li>
+        </ul>
+
+
+
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="upload" role="tabpanel" aria-labelledby="upload-tab upload-drop">
+                <div class='container'>
+                    <h1>Upload new file</h1>
+                    <div class='row'>
+                        <div class='col-sm-10'>
+                            <form action='/upload' enctype='multipart/form-data' id='upload' method='post'>
+                                <input accept='image/*' capture='camera' name='file' type='file'>
+                                <input class='btn btn-default' type='submit' value='Upload'>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="existing" role="tabpanel" aria-labelledby="existing-tab existing-drop">
+                <div class='container'>
+                    <h1>Existing files</h1>
+                    <div class='row'>
+                        <div class='col-sm-7'></div>
+                        <div class='col-sm-5'>
+                            <div class='input-group'>
+                                <span class='input-group-addon'>Filter Prefix</span>
+                                <input class='form-control' id='prefix' type='text'>
+                            </div>
+                        </div>
+                    </div>
+                    <table class='table table-hover'>
+                        <thead>
+                            <tr>
+                                <th class='col-s-6'>Filename</th>
+                                <th class='col-s-2'>Date</th>
+                                <th class='col-s-2'>Size</th>
+                                <th class='col-s-2'>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id='files'></tbody>
+                    </table>
+                    <div id='nomore'>No more results.</div>
+                    <div class="spinner-border" role="status" id="loader">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="about" role="tabpanel" aria-labelledby="about-tab about-drop">
+                <div class="container">
+                    <h1>About this page</h1>
+                    <p>This is a demo app...</p>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class='modal fade' id='versions-modal' role='dialog'>
+            <div class='modal-dialog'>
+                <div class='modal-content'>
+                    <div class='modal-header'>
+                        <button class='close' data-dismiss='modal' type='button'>&times;</button>
+                        <h4 class='modal-title'>Object Versions and Metadata</h4>
+                    </div>
+                    <div class='modal-body'>
+                        <div class='row'>
+                            <div class='col-xs-12' id='image'></div>
+                        </div>
+                        <table class='table table-condensed'>
+                            <thead>
+                                <tr>
+                                    <th class='col-s-8'>Metadata</th>
+                                    <th class='col-s-4'>Value</th>
+                            <tbody id='metadata'></tbody>
+                            </tr>
+                            </thead>
+                        </table>
+                        <table class='table table-condensed'>
+                            <thead>
+                                <tr>
+                                    <th class='col-s-8'>Date</th>
+                                    <th class='col-s-3'>Size</th>
+                                    <th class='col-s-1'>Action</th>
+                            <tbody id='versions'></tbody>
+                            </tr>
+                            </thead>
+                        </table>
+                        <div class="spinner-border" role="status" id="versionloader">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="../js/jQueryRotate-2.3.js"></script>
+    <script src="../js/script.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.nav').on('shown.bs.tab', 'a', function (e) {
+                console.log(e.relatedTarget);
+                if (e.relatedTarget) {
+                    $(e.relatedTarget).removeClass('active in');
+                    $(e.relatedTarget).removeClass('active');
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
