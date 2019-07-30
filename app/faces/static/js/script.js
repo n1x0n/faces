@@ -42,19 +42,28 @@ $(document).ready(function() {
 function resizeImage(url, width, height, degrees, callback) {
     var sourceImage = new Image();
 
-    alert(degrees);
-
     sourceImage.onload = function() {
         // Create a canvas with the desired dimensions
         var canvas = document.createElement("canvas");
+        var ctx = canvas.getContext("2d");
 
-        if (sourceImage.width > sourceImage.height) {
-            canvas.width = width;
-            canvas.height = Math.round((sourceImage.height / sourceImage.width) * width);
+        if (degrees == 90 || degrees == 270) {
+            canvas.width = sourceImage.height;
+            canvas.height = sourceImage.width;
         } else {
-            canvas.height = height;
-            canvas.width = Math.round((sourceImage.width / sourceImage.height) * height);
+            canvas.width = sourceImage.width;
+            canvas.height = sourceImage.height;
         }
+
+        /*
+                if (sourceImage.width > sourceImage.height) {
+                    canvas.width = width;
+                    canvas.height = Math.round((sourceImage.height / sourceImage.width) * width);
+                } else {
+                    canvas.height = height;
+                    canvas.width = Math.round((sourceImage.width / sourceImage.height) * height);
+                }
+        */
 
         // Scale and draw the source image to the canvas
         canvas.getContext("2d").drawImage(sourceImage, 0, 0, canvas.width, canvas.height);
