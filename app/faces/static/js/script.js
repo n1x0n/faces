@@ -11,15 +11,15 @@ $(document).ready(function() {
                     var orientation = EXIF.getTag(this, "Orientation");
                     alert(orientation);
                 });
-                image.src = reader.result;
-
-                resizeImage(reader.result, 480, 480, function(newurl) {
-                    $('#preview').attr("src", newurl);
-                    $('#photoclicker').addClass("d-none");
-                    $('#preview').removeClass("d-none");
-                    $('#submitbutton').removeClass("d-none");
-                });
             };
+            image.src = reader.result;
+
+            resizeImage(reader.result, 480, 480, function(newurl) {
+                $('#preview').attr("src", newurl);
+                $('#photoclicker').addClass("d-none");
+                $('#preview').removeClass("d-none");
+                $('#submitbutton').removeClass("d-none");
+            });
         }, false);
 
         if (file) {
