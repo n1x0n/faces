@@ -57,22 +57,21 @@ function resizeImage(url, width, height, degrees, callback) {
 
         ctx.rotate(degrees * Math.PI / 180);
 
-        /*
-                if (sourceImage.width > sourceImage.height) {
-                    canvas.width = width;
-                    canvas.height = Math.round((sourceImage.height / sourceImage.width) * width);
-                } else {
-                    canvas.height = height;
-                    canvas.width = Math.round((sourceImage.width / sourceImage.height) * height);
-                }
-        */
+
+        if (sourceImage.width > sourceImage.height) {
+            canvas.width = width;
+            canvas.height = Math.round((sourceImage.height / sourceImage.width) * width);
+        } else {
+            canvas.height = height;
+            canvas.width = Math.round((sourceImage.width / sourceImage.height) * height);
+        }
 
         // Scale and draw the source image to the canvas
         ctx.drawImage(sourceImage, 0, 0, canvas.width, canvas.height);
 
         // Convert the canvas to a data URL in PNG format
         callback(canvas.toDataURL());
-    }
+    };
 
     sourceImage.src = url;
 }
