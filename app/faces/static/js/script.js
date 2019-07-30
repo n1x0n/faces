@@ -57,7 +57,7 @@ function resizeImage(url, width, height, degrees, callback) {
         var ctx = canvas.getContext("2d");
         ctx.translate(parseInt(canvas.width / 2), parseInt(canvas.height / 2));
         ctx.rotate(degrees * Math.PI / 180);
-        ctx.drawImage(sourceImage, 0, 0, parseInt(canvas.width / 2), parseInt(canvas.height / 2));
+        ctx.drawImage(sourceImage, 0, 0, parseInt(canvas.width / -2), parseInt(canvas.height / -2));
 
         /*
         var dummy = new Image();
