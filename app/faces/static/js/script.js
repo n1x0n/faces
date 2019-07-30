@@ -55,6 +55,8 @@ function resizeImage(url, width, height, degrees, callback) {
             canvas.height = sourceImage.height;
         }
 
+        ctx.rotate(degrees * Math.PI / 180);
+
         /*
                 if (sourceImage.width > sourceImage.height) {
                     canvas.width = width;
