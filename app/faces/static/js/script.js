@@ -57,21 +57,26 @@ function resizeImage(url, width, height, degrees, callback) {
 
         var ctx = canvas.getContext("2d");
         ctx.rotate(degrees * Math.PI / 180);
+        ctx.drawImage(sourceImage, 0, 0, canvas.width, canvas.height);
 
-        if (sourceImage.width > sourceImage.height) {
-            canvas.width = width;
-            canvas.height = Math.round((sourceImage.height / sourceImage.width) * width);
+        var dummy = new Image();
+        var dummycanvas = document.createElement("canvas");
+        dummy.src = canvas.toDataURL();
+
+        if (dummy.width > dummy.height) {
+            dummycanvas.width = width;
+            dummycanvas.height = Math.round((dummy.height / dummy.width) * width);
         } else {
-            canvas.height = height;
-            canvas.width = Math.round((sourceImage.width / sourceImage.height) * height);
+            dummycanvas.height = height;
+            dummycanvas.width = Math.round((dummy.width / dummy.height) * height);
         }
 
         // Scale and draw the source image to the canvas
-        ctx.drawImage(sourceImage, 0, 0, canvas.width, canvas.height);
-        ctx.rotate(degrees * Math.PI / 180);
+        var dummyctx = dummycanvas.getContext("2d");
+        dummyctx.drawImage(dummy, 0, 0, dummycanvas.width, dummycanvas.height);
 
         // Convert the canvas to a data URL in PNG format
-        callback(canvas.toDataURL());
+        callback(dummycanvas.toDataURL());
     };
 
     sourceImage.src = url;
