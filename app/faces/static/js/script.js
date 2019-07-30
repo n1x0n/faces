@@ -45,7 +45,7 @@ function resizeImage(url, width, height, degrees, callback) {
     sourceImage.onload = function() {
         // Create a canvas with the desired dimensions
         var canvas = document.createElement("canvas");
-        var ctx = canvas.getContext("2d");
+
 
         if (degrees == 90 || degrees == 270) {
             canvas.width = sourceImage.height;
@@ -55,7 +55,6 @@ function resizeImage(url, width, height, degrees, callback) {
             canvas.height = sourceImage.height;
         }
 
-        ctx.rotate(degrees * Math.PI / 180);
 
 
         if (sourceImage.width > sourceImage.height) {
@@ -66,6 +65,9 @@ function resizeImage(url, width, height, degrees, callback) {
             canvas.width = Math.round((sourceImage.width / sourceImage.height) * height);
         }
 
+
+        var ctx = canvas.getContext("2d");
+        ctx.rotate(degrees * Math.PI / 180);
         // Scale and draw the source image to the canvas
         ctx.drawImage(sourceImage, 0, 0, canvas.width, canvas.height);
 
