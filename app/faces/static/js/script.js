@@ -62,6 +62,7 @@ function resizeImage(url, width, height, degrees, callback) {
         ctx.rotate(degrees * Math.PI / 180);
         ctx.drawImage(sourceImage, 0, 0, canvas.width, canvas.height);
 
+        /*
         var dummy = new Image();
         var dummycanvas = document.createElement("canvas");
         dummy.src = canvas.toDataURL();
@@ -79,7 +80,8 @@ function resizeImage(url, width, height, degrees, callback) {
         dummyctx.drawImage(dummy, 0, 0, dummycanvas.width, dummycanvas.height);
 
         // Convert the canvas to a data URL in PNG format
-        callback(dummycanvas.toDataURL());
+        */
+        callback(canvas.toDataURL());
     };
 
     sourceImage.src = url;
