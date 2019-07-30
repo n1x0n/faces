@@ -22,7 +22,7 @@ $(document).ready(function() {
                             break;
                     }
                 });
-                resizeImage(reader.result, 480, 480, degrees, function(newurl) {
+                resizeImage(reader.result, 480, degrees, function(newurl) {
                     $('#preview').attr("src", newurl);
                     $('#photoclicker').addClass("d-none");
                     $('#preview').removeClass("d-none");
@@ -39,7 +39,7 @@ $(document).ready(function() {
 });
 
 
-function resizeImage(url, width, height, degrees, callback) {
+function resizeImage(url, size, degrees, callback) {
     var sourceImage = new Image();
 
     sourceImage.onload = function() {
@@ -53,6 +53,10 @@ function resizeImage(url, width, height, degrees, callback) {
             canvas.width = sourceImage.width;
             canvas.height = sourceImage.height;
         }
+
+        // Scale to right dimensions
+        canvas.height = Math.round((canvas.height / canvas.width) * size);
+        canvas.width = size;
 
         var ctx = canvas.getContext("2d");
         ctx.translate(parseInt(canvas.width / 2), parseInt(canvas.height / 2));
