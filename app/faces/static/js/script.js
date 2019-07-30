@@ -68,7 +68,7 @@ function resizeImage(url, width, height, degrees, callback) {
         */
 
         // Scale and draw the source image to the canvas
-        canvas.getContext("2d").drawImage(sourceImage, 0, 0, canvas.width, canvas.height);
+        ctx.drawImage(sourceImage, 0, 0, canvas.width, canvas.height);
 
         // Convert the canvas to a data URL in PNG format
         callback(canvas.toDataURL());
