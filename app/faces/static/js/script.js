@@ -45,17 +45,20 @@ function resizeImage(url, width, height, degrees, callback) {
     sourceImage.onload = function() {
         // Create a canvas with the desired dimensions
         var canvas = document.createElement("canvas");
-
+        var tx = 0;
+        var ty = 0;
 
         if (degrees == 90 || degrees == 270) {
             canvas.width = sourceImage.height;
             canvas.height = sourceImage.width;
+            ty = canvas.height;
         } else {
             canvas.width = sourceImage.width;
             canvas.height = sourceImage.height;
         }
 
         var ctx = canvas.getContext("2d");
+        ctx.translate(tx, ty);
         ctx.rotate(degrees * Math.PI / 180);
         ctx.drawImage(sourceImage, 0, 0, canvas.width, canvas.height);
 
@@ -76,7 +79,7 @@ function resizeImage(url, width, height, degrees, callback) {
         dummyctx.drawImage(dummy, 0, 0, dummycanvas.width, dummycanvas.height);
 
         // Convert the canvas to a data URL in PNG format
-        callback(canvas.toDataURL());
+        callback(dummycanvas.toDataURL());
     };
 
     sourceImage.src = url;
