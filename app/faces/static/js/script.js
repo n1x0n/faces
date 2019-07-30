@@ -6,12 +6,23 @@ $(document).ready(function() {
 
         reader.addEventListener("load", function() {
             var image = new Image();
-            var orientation = 0;
+            var degrees = 0;
             image.onload = function() {
                 EXIF.getData(image, function() {
                     orientation = EXIF.getTag(this, "Orientation");
+                    switch (orientation) {
+                        case 3:
+                            degrees = 180;
+                            break;
+                        case 6:
+                            degrees = 90;
+                            break;
+                        case 8:
+                            degrees = 270;
+                            break;
+                    }
                 });
-                resizeImage(reader.result, 480, 480, orientation, function(newurl) {
+                resizeImage(reader.result, 480, 480, degrees, function(newurl) {
                     $('#preview').attr("src", newurl);
                     $('#photoclicker').addClass("d-none");
                     $('#preview').removeClass("d-none");
@@ -28,10 +39,10 @@ $(document).ready(function() {
 });
 
 
-function resizeImage(url, width, height, rotation, callback) {
+function resizeImage(url, width, height, degrees, callback) {
     var sourceImage = new Image();
 
-    alert(rotation);
+    alert(degrees);
 
     sourceImage.onload = function() {
         // Create a canvas with the desired dimensions
