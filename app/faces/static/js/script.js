@@ -70,6 +70,7 @@ function resizeImage(url, width, height, degrees, callback) {
         //ctx.rotate(degrees * Math.PI / 180);
         // Scale and draw the source image to the canvas
         ctx.drawImage(sourceImage, 0, 0, canvas.width, canvas.height);
+        ctx.rotate(degrees * Math.PI / 180);
 
         // Convert the canvas to a data URL in PNG format
         callback(canvas.toDataURL());
