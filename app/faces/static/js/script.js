@@ -46,12 +46,20 @@ function resizeImage(url, size, degrees, callback) {
         // Create a canvas with the desired dimensions
         var canvas = document.createElement("canvas");
 
+        var scaleX = 1;
+        var scaleY = 1;
+
+
         if (degrees == 90 || degrees == 270) {
             canvas.width = sourceImage.height;
             canvas.height = sourceImage.width;
+            scaleX = size / sourceImage.height;
+            scaleY = scaleX;
         } else {
             canvas.width = sourceImage.width;
             canvas.height = sourceImage.height;
+            scaleX = size / sourceImage.width;
+            scaleY = scaleX;
         }
 
         // Scale to right dimensions
@@ -59,8 +67,9 @@ function resizeImage(url, size, degrees, callback) {
         canvas.width = size;
 
         var ctx = canvas.getContext("2d");
-        ctx.translate(parseInt(canvas.width / 2), parseInt(canvas.height / 2));
-        //ctx.rotate(degrees * Math.PI / 180);
+        //ctx.translate(parseInt(canvas.width / 2), parseInt(canvas.height / 2));
+        ctx.setTransform(scaleX, 0, 0, scaleY, parseInt(canvas.width / 2), parseInt(canvas.height / 2));
+        ctx.rotate(degrees * Math.PI / 180);
         ctx.drawImage(sourceImage, parseInt(canvas.width / -2), parseInt(canvas.height / -2), canvas.width, canvas.height);
 
         /*
