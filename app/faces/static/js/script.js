@@ -62,12 +62,14 @@ function resizeImage(url, size, degrees, callback) {
         }
 
 
-        // Scale to right dimensions
-        canvas.height = Math.round((canvas.height / canvas.width) * size);
-        canvas.width = size;
-
         var drawx = Math.round(canvas.width / 2) * -1;
         var drawy = Math.round(canvas.height / 2) * -1;
+
+        // Scale to right dimensions
+        /*canvas.height = Math.round((canvas.height / canvas.width) * size);
+        canvas.width = size;*/
+
+
 
 
         var ctx = canvas.getContext("2d");
