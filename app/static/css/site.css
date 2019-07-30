@@ -1,0 +1,29 @@
+/* Site CSS */
+
+body {
+    font-family: 'Raleway', sans-serif;
+}
+
+h1,
+h2,
+h3,
+.tophat {
+    text-transform: uppercase;
+}
+
+.nav-link .material-icons {
+    vertical-align: middle;
+}
+
+#photoclicker {
+    font-size: 20rem;
+    text-align: center;
+}
+
+#myTabContent {
+    margin-top: 1em;
+}
+
+#upload {
+    text-align: center;
+}

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Raleway&display=swap" rel="stylesheet">
+    <link href='../css/site.css' rel='stylesheet' type='text/css'>
+    <meta charset='utf-8'>
+    <meta content='width=device-width, initial-scale=1' name='viewport'>
+</head>
+
+<body>
+    <div class='container'>
+        <div class="tophat">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="#">
+                    <img src="../img/Netapp_logo.svg" height="30" class="d-inline-block align-top" alt=""> Faces
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="upload-tab" data-toggle="tab" href="#upload" role="tab" aria-controls="upload" aria-selected="true">
+                                <i class="material-icons">photo_camera</i> Upload new photo
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="existing-tab" data-toggle="tab" href="#existing" role="tab" aria-controls="existing" aria-selected="false">
+                                <i class="material-icons">photo_library</i> Existing photos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="about-tab" data-toggle="tab" href="#about" role="tab" aria-controls="about" aria-selected="false">
+                                <i class="material-icons">info</i> About
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <div class="tab-content" id="myTabContent">
+
+            <div class="tab-pane fade show active" id="upload" role="tabpanel" aria-labelledby="upload-tab">
+                <div class='container'>
+                    <h2>Upload new file</h2>
+                    <form action='/upload' enctype='multipart/form-data' id='upload' method='post'>
+                        <input accept='image/*' capture='camera' id="imageselector" type='file' class="d-none">
+                        <i class="material-icons" id="photoclicker" onclick="$('#imageselector').trigger('click'); return false;">face</i>
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" id="preview" alt="preview" class="img-thumbnail d-none" onclick="$('#imageselector').trigger('click'); return false;">
+                        <p>Click image to select new photo.</p>
+                        <input class='btn btn-default d-none' type='submit' id="submitbutton" value='Upload'>
+                    </form>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="existing" role="tabpanel" aria-labelledby="existing-tab">
+                <div class='container'>
+                    <h1>Existing files</h1>
+                    <div class='row'>
+                        <div class='col-sm-7'></div>
+                        <div class='col-sm-5'>
+                            <div class='input-group'>
+                                <span class='input-group-addon'>Filter Prefix</span>
+                                <input class='form-control' id='prefix' type='text'>
+                            </div>
+                        </div>
+                    </div>
+                    <table class='table table-hover'>
+                        <thead>
+                            <tr>
+                                <th class='col-s-6'>Filename</th>
+                                <th class='col-s-2'>Date</th>
+                                <th class='col-s-2'>Size</th>
+                                <th class='col-s-2'>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id='files'></tbody>
+                    </table>
+                    <div id='nomore'>No more results.</div>
+                    <div class="spinner-border" role="status" id="loader">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="about" role="tabpanel" aria-labelledby="about-tab">
+                <div class="container">
+                    <h1>About this page</h1>
+                    <p>This is a demo app...</p>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class='modal fade' id='versions-modal' role='dialog'>
+            <div class='modal-dialog'>
+                <div class='modal-content'>
+                    <div class='modal-header'>
+                        <button class='close' data-dismiss='modal' type='button'>&times;</button>
+                        <h4 class='modal-title'>Object Versions and Metadata</h4>
+                    </div>
+                    <div class='modal-body'>
+                        <div class='row'>
+                            <div class='col-xs-12' id='image'></div>
+                        </div>
+                        <table class='table table-condensed'>
+                            <thead>
+                                <tr>
+                                    <th class='col-s-8'>Metadata</th>
+                                    <th class='col-s-4'>Value</th>
+                                    <tbody id='metadata'></tbody>
+                                </tr>
+                            </thead>
+                        </table>
+                        <table class='table table-condensed'>
+                            <thead>
+                                <tr>
+                                    <th class='col-s-8'>Date</th>
+                                    <th class='col-s-3'>Size</th>
+                                    <th class='col-s-1'>Action</th>
+                                    <tbody id='versions'></tbody>
+                                </tr>
+                            </thead>
+                        </table>
+                        <div class="spinner-border" role="status" id="versionloader">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="../js/jQueryRotate-2.3.js"></script>
+    <script src="../js/script.js"></script>
+
+</body>
+
+</html>
