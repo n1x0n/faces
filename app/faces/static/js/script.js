@@ -76,7 +76,7 @@ function resizeImage(url, width, height, degrees, callback) {
         dummyctx.drawImage(dummy, 0, 0, dummycanvas.width, dummycanvas.height);
 
         // Convert the canvas to a data URL in PNG format
-        callback(dummycanvas.toDataURL());
+        callback(canvas.toDataURL());
     };
 
     sourceImage.src = url;
