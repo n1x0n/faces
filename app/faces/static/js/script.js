@@ -67,39 +67,15 @@ function resizeImage(url, size, degrees, callback) {
             scaleY = scaleX;
         }
 
-
         // Scale to right dimensions
         canvas.height = Math.round((canvas.height / canvas.width) * size);
         canvas.width = size;
-
-
-
-
         var ctx = canvas.getContext("2d");
-        //ctx.translate(parseInt(canvas.width / 2), parseInt(canvas.height / 2));
         ctx.setTransform(scaleX, 0, 0, scaleY, Math.round(canvas.width / 2), Math.round(canvas.height / 2));
         ctx.rotate(degrees * Math.PI / 180);
         ctx.drawImage(sourceImage, drawx, drawy);
 
-        /*
-        var dummy = new Image();
-        var dummycanvas = document.createElement("canvas");
-        dummy.src = canvas.toDataURL();
-
-        if (dummy.width > dummy.height) {
-            dummycanvas.width = width;
-            dummycanvas.height = Math.round((dummy.height / dummy.width) * width);
-        } else {
-            dummycanvas.height = height;
-            dummycanvas.width = Math.round((dummy.width / dummy.height) * height);
-        }
-
-        // Scale and draw the source image to the canvas
-        var dummyctx = dummycanvas.getContext("2d");
-        dummyctx.drawImage(dummy, 0, 0, dummycanvas.width, dummycanvas.height);
-
         // Convert the canvas to a data URL in PNG format
-        */
         callback(canvas.toDataURL());
     };
 
