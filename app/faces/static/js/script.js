@@ -66,15 +66,15 @@ function resizeImage(url, size, degrees, callback) {
         var drawy = Math.round(canvas.height / 2) * -1;
 
         // Scale to right dimensions
-        /*canvas.height = Math.round((canvas.height / canvas.width) * size);
-        canvas.width = size;*/
+        canvas.height = Math.round((canvas.height / canvas.width) * size);
+        canvas.width = size;
 
 
 
 
         var ctx = canvas.getContext("2d");
         //ctx.translate(parseInt(canvas.width / 2), parseInt(canvas.height / 2));
-        ctx.setTransform(scaleX, 0, 0, scaleY, parseInt(canvas.width / 2), parseInt(canvas.height / 2));
+        ctx.setTransform(scaleX, 0, 0, scaleY, drawx, drawy);
         ctx.rotate(degrees * Math.PI / 180);
         ctx.drawImage(sourceImage, drawx, drawy);
 
