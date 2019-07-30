@@ -22,17 +22,17 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="nav navbar-nav mr-auto">
-                        <li class="nav-item">
+                        <li class="nav-item" data-toggle="collapse" data-target="#navbarSupportedContent">
                             <a class="nav-link active" id="upload-tab" data-toggle="tab" href="#upload" role="tab" aria-controls="upload" aria-selected="true">
                                 <i class="material-icons">photo_camera</i> Upload new photo
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" data-toggle="collapse" data-target="#navbarSupportedContent">
                             <a class="nav-link" id="existing-tab" data-toggle="tab" href="#existing" role="tab" aria-controls="existing" aria-selected="false">
                                 <i class="material-icons">photo_library</i> Existing photos
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" data-toggle="collapse" data-target="#navbarSupportedContent">
                             <a class="nav-link" id="about-tab" data-toggle="tab" href="#about" role="tab" aria-controls="about" aria-selected="false">
                                 <i class="material-icons">info</i> About
                             </a>
@@ -51,7 +51,7 @@
                         <input accept='image/*' capture='camera' id="imageselector" type='file' class="d-none">
                         <i class="material-icons" id="photoclicker" onclick="$('#imageselector').trigger('click'); return false;">face</i>
                         <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" id="preview" alt="preview" class="img-thumbnail d-none" onclick="$('#imageselector').trigger('click'); return false;">
-                        <p>Click image to select new photo.</p>
+                        <p class="instructions">Click image to select new photo.</p>
                         <input class='btn btn-default d-none' type='submit' id="submitbutton" value='Upload'>
                     </form>
                 </div>
@@ -59,26 +59,37 @@
 
             <div class="tab-pane fade" id="existing" role="tabpanel" aria-labelledby="existing-tab">
                 <div class='container'>
-                    <h1>Existing files</h1>
-                    <div class='row'>
-                        <div class='col-sm-7'></div>
-                        <div class='col-sm-5'>
-                            <div class='input-group'>
-                                <span class='input-group-addon'>Filter Prefix</span>
-                                <input class='form-control' id='prefix' type='text'>
-                            </div>
-                        </div>
-                    </div>
-                    <table class='table table-hover'>
+                    <h2>Existing files</h2>
+                    <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th class='col-s-6'>Filename</th>
-                                <th class='col-s-2'>Date</th>
-                                <th class='col-s-2'>Size</th>
-                                <th class='col-s-2'>Action</th>
+                                <th>Filename</th>
+                                <th>Date</th>
+                                <th>Size</th>
                             </tr>
                         </thead>
-                        <tbody id='files'></tbody>
+                        <tbody id="files">
+                            <tr>
+                                <td>20190612-143428.jpg</td>
+                                <td>2019-06-12 12:34:42 UTC</td>
+                                <td>1.2 MB</td>
+                            </tr>
+                            <tr>
+                                <td>20190612-145252.jpg</td>
+                                <td>2019-06-12 12:53:08 UTC</td>
+                                <td>1.5 MB</td>
+                            </tr>
+                            <tr>
+                                <td>20190612-145359.jpg</td>
+                                <td>2019-06-12 12:55:25 UTC</td>
+                                <td>2.7 MB</td>
+                            </tr>
+                            <tr>
+                                <td>20190717-231753.jpg</td>
+                                <td>2019-07-17 21:18:06 UTC</td>
+                                <td>1.2 MB</td>
+                            </tr>
+                        </tbody>
                     </table>
                     <div id='nomore'>No more results.</div>
                     <div class="spinner-border" role="status" id="loader">

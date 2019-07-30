@@ -19,6 +19,7 @@ $(document).ready(function() {
     });
 });
 
+
 function resizeImage(url, width, height, callback) {
     var sourceImage = new Image();
 
