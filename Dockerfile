@@ -7,7 +7,8 @@ COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt && rm requirements.txt
 
 # Copy the entire app
-COPY /app .
+RUN mkdir /app
+COPY /app /app
 WORKDIR /app
 
 EXPOSE 5000
