@@ -48,6 +48,8 @@ function resizeImage(url, size, degrees, callback) {
 
         var scaleX = 1;
         var scaleY = 1;
+        var sizeX = 0;
+        var sizeY = 0;
 
 
         if (degrees == 90 || degrees == 270) {
@@ -55,11 +57,15 @@ function resizeImage(url, size, degrees, callback) {
             canvas.height = sourceImage.width;
             scaleX = size / sourceImage.height;
             scaleY = scaleX;
+            sizeX = sourceImage.height;
+            sizeY = sourceImage.width;
         } else {
             canvas.width = sourceImage.width;
             canvas.height = sourceImage.height;
             scaleX = size / sourceImage.width;
             scaleY = scaleX;
+            sizeX = sourceImage.width;
+            sizeY = sourceImage.height;
         }
 
         // Scale to right dimensions
