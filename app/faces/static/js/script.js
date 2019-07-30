@@ -67,7 +67,7 @@ function resizeImage(url, width, height, degrees, callback) {
 
 
         var ctx = canvas.getContext("2d");
-        ctx.rotate(degrees * Math.PI / 180);
+        //ctx.rotate(degrees * Math.PI / 180);
         // Scale and draw the source image to the canvas
         ctx.drawImage(sourceImage, 0, 0, canvas.width, canvas.height);
 
