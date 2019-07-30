@@ -6,20 +6,19 @@ $(document).ready(function() {
 
         reader.addEventListener("load", function() {
             var image = new Image();
+            var orientation = 0;
             image.onload = function() {
                 EXIF.getData(image, function() {
-                    var orientation = EXIF.getTag(this, "Orientation");
-                    alert(orientation);
+                    orientation = EXIF.getTag(this, "Orientation");
+                });
+                resizeImage(reader.result, 480, 480, orientation, function(newurl) {
+                    $('#preview').attr("src", newurl);
+                    $('#photoclicker').addClass("d-none");
+                    $('#preview').removeClass("d-none");
+                    $('#submitbutton').removeClass("d-none");
                 });
             };
             image.src = reader.result;
-
-            resizeImage(reader.result, 480, 480, function(newurl) {
-                $('#preview').attr("src", newurl);
-                $('#photoclicker').addClass("d-none");
-                $('#preview').removeClass("d-none");
-                $('#submitbutton').removeClass("d-none");
-            });
         }, false);
 
         if (file) {
@@ -29,8 +28,10 @@ $(document).ready(function() {
 });
 
 
-function resizeImage(url, width, height, callback) {
+function resizeImage(url, width, height, rotation, callback) {
     var sourceImage = new Image();
+
+    alert(rotation);
 
     sourceImage.onload = function() {
         // Create a canvas with the desired dimensions
