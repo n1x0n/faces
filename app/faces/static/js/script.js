@@ -48,22 +48,25 @@ function resizeImage(url, size, degrees, callback) {
 
         var scaleX = 1;
         var scaleY = 1;
+        var drawx = 0;
+        var drawy = 0;
 
         if (degrees == 90 || degrees == 270) {
             canvas.width = sourceImage.height;
             canvas.height = sourceImage.width;
+            drawx = Math.round(canvas.height / 2) * -1;
+            drawy = Math.round(canvas.width / 2) * -1;
             scaleX = size / sourceImage.height;
             scaleY = scaleX;
         } else {
             canvas.width = sourceImage.width;
             canvas.height = sourceImage.height;
+            drawx = Math.round(canvas.width / 2) * -1;
+            drawy = Math.round(canvas.height / 2) * -1;
             scaleX = size / sourceImage.width;
             scaleY = scaleX;
         }
 
-
-        var drawx = Math.round(canvas.width / 2) * -1;
-        var drawy = Math.round(canvas.height / 2) * -1;
 
         // Scale to right dimensions
         canvas.height = Math.round((canvas.height / canvas.width) * size);
