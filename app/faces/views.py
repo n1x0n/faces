@@ -11,8 +11,10 @@ def index():
 @app.route('/upload', methods=['POST'])
 def login():
     if request.method == 'POST':
+        infopanel = False
         timestamp = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
-        return render_template('index.html', infopanel=timestamp)
+        #data = Base64.decode64(params[:file].to_s)
+        return render_template('index.html', infopanel=infopanel)
 
 
 """ @app.route('/register', methods=['GET','POST'])
