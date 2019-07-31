@@ -42,7 +42,7 @@ h3,
 
 .imagedesat {
     filter: none;
-    -webkit-filter: grayscale(650%);
+    -webkit-filter: grayscale(65%);
     -moz-filter: grayscale(65%);
     -ms-filter: grayscale(65%);
     -o-filter: grayscale(65%);
