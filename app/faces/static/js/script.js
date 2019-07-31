@@ -1,15 +1,15 @@
 /* Script */
-$(document).ready(function () {
+$(document).ready(function() {
     /* Activate the image selector functionality */
-    $('#imageselector').change(function () {
+    $('#imageselector').change(function() {
         var file = document.querySelector('input[type=file]').files[0];
         var reader = new FileReader();
 
-        reader.addEventListener("load", function () {
+        reader.addEventListener("load", function() {
             var image = new Image();
             var degrees = 0;
-            image.onload = function () {
-                EXIF.getData(image, function () {
+            image.onload = function() {
+                EXIF.getData(image, function() {
                     orientation = EXIF.getTag(this, "Orientation");
                     $("#rotation").html(" Orientation: " + orientation);
                     switch (orientation) {
@@ -24,7 +24,7 @@ $(document).ready(function () {
                             break;
                     }
                 });
-                resizeImage(reader.result, 480, degrees, function (newurl) {
+                resizeImage(reader.result, 480, degrees, function(newurl) {
                     $('#preview').attr("src", newurl);
                     $('#photoclicker').addClass("d-none");
                     $('#preview').removeClass("d-none");
@@ -44,15 +44,17 @@ $(document).ready(function () {
     $("#submitbutton").click(function() {
         $("#submitbutton").addClass("d-none");
         $("#uploadspinner").removeClass("d-none");
-        $.post( "/upload", { imagedata: $('#preview').attr("src") }, function( data ) {
-            alert( "Data Loaded: " + data );
+        $.post("/upload", { imagedata: $('#preview').attr("src") }, function(data) {
+            alert("Data Loaded: " + data);
             if (parseInt(data) > 0) {
-                $('.nav-tabs a[href="#existing"]').tab('show');
+                $('[href="#existing"]').tab('show');
             } else {
                 alert("FIXME ERROR!");
             }
             $("#uploadspinner").addClass("d-none");
-            $('#submitbutton').removeClass("d-none");
+            $('#preview').addClass("d-none");
+            $('#preview').attr("src", newurl);
+            $('#photoclicker').removeClass("d-none");
         });
     });
 
@@ -62,7 +64,7 @@ $(document).ready(function () {
 function resizeImage(url, size, degrees, callback) {
     var sourceImage = new Image();
 
-    sourceImage.onload = function () {
+    sourceImage.onload = function() {
         // Create a canvas with the desired dimensions
         var canvas = document.createElement("canvas");
 
