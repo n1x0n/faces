@@ -91,6 +91,7 @@ function filelist() {
 
         var keys = Object.keys(objects);
         keys.sort();
+        keys.reverse();
 
         for (var i = 0; i < keys.length; i++) {
             var key = keys[i];
