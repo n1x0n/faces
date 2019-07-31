@@ -12,6 +12,14 @@ def index():
 def login():
     if request.method == 'POST':
         infopanel = False
+
+        if 'file' not in request.files:
+            flash('No file part')
+            infopanel = "No file part"
+            return render_template('index.html', infopanel=infopanel)
+        
+        file = request.files['file']
+        infopanel = file
         timestamp = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
         #data = Base64.decode64(params[:file].to_s)
         return render_template('index.html', infopanel=infopanel)
