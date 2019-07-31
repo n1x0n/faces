@@ -67,9 +67,7 @@ def imagelist():
                           aws_access_key_id=access_key, aws_secret_access_key=secret_key)
         paginator = client.get_paginator("list_objects_v2")
         for page in paginator.paginate(Bucket=s3_bucket):
-            for obj in page['Contents']:
-                print("%s" % obj['key'])
-                imagelist[obj['key']] = obj
+            print(page["Contents"])
     except Exception as e:
         print("Error reading bucket %s: %s" % (s3_bucket, e))
 
