@@ -40,6 +40,10 @@ h3,
     text-align: center;
 }
 
+.alert {
+    display: inline-block;
+}
+
 .imagedesat {
     filter: none;
     -webkit-filter: grayscale(65%);
