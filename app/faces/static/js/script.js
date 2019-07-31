@@ -2,7 +2,6 @@
 $(document).ready(function() {
     /* Activate the image selector functionality */
     $('#imageselector').change(function() {
-        $("#uploaderror").addClass("d-none");
         var file = document.querySelector('input[type=file]').files[0];
         var reader = new FileReader();
 
@@ -27,6 +26,7 @@ $(document).ready(function() {
                 });
                 resizeImage(reader.result, 480, degrees, function(newurl) {
                     $('#preview').attr("src", newurl);
+                    $("#uploaderror").addClass("d-none");
                     $('#photoclicker').addClass("d-none");
                     $('#preview').removeClass("d-none");
                     $('#submitbutton').removeClass("d-none");
