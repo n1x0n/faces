@@ -12,8 +12,8 @@ def index():
 def login():
     if request.method == 'POST':
         timestamp = datetime.datetime().strftime('%Y%m%d-%H%M%S')
-        return render_template('index.html')
-        
+        return render_template('index.html', infopanel=timestamp)
+
 """ @app.route('/register', methods=['GET','POST'])
 def register():
     if request.method == 'POST':
