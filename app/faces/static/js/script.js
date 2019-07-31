@@ -67,6 +67,7 @@ $(document).ready(function() {
 
 
 function loadfiles() {
+    $("#loading").removeClass("d-none");
     $.getJSON("/imagelist", function(data) {
         var items = [];
         $.each(data, function(key, val) {
@@ -78,6 +79,7 @@ function loadfiles() {
         });
 
         $("#files").html(items.join(""));
+        $("#loading").addClass("d-none");
     });
 }
 
