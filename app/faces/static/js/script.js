@@ -45,7 +45,6 @@ $(document).ready(function() {
         $("#submitbutton").addClass("d-none");
         $("#uploadspinner").removeClass("d-none");
         $.post("/upload", { imagedata: $('#preview').attr("src") }, function(data) {
-            alert("Data Loaded: " + data);
             if (parseInt(data) > 0) {
                 $('[href="#existing"]').tab('show');
             } else {
@@ -53,7 +52,7 @@ $(document).ready(function() {
             }
             $("#uploadspinner").addClass("d-none");
             $('#preview').addClass("d-none");
-            $('#preview').attr("src", newurl);
+            $('#preview').attr("src", "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
             $('#photoclicker').removeClass("d-none");
         });
     });
