@@ -64,7 +64,6 @@ $(document).ready(function() {
         var currentTab = $(e.target).attr("id");
         console.log(currentTab);
         if (currentTab == "existing-tab") {
-            alert("On existing");
             filelist();
         }
     });
@@ -77,7 +76,6 @@ $(document).ready(function() {
 
 
 function filelist() {
-    alert("Loading");
     $("#loading").removeClass("d-none");
     $.getJSON("/imagelist", function(data) {
         var items = [];
