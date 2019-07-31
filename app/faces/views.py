@@ -11,9 +11,9 @@ def index():
 @app.route('/upload', methods=['POST'])
 def login():
     if request.method == 'POST':
-        timestamp = datetime.datetime().strftime('%Y%m%d-%H%M%S')
+        timestamp = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
         return render_template('index.html', infopanel=timestamp)
-        
+
 
 """ @app.route('/register', methods=['GET','POST'])
 def register():
