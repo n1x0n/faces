@@ -60,7 +60,6 @@ $(document).ready(function() {
         });
     });
 
-    $("#fixmefixme").click(filelist());
 });
 
 
