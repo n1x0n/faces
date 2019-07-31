@@ -39,3 +39,12 @@ h3,
 #about {
     text-align: center;
 }
+
+.imagedesat {
+    filter: none;
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    transition: all 300ms ease;
+}

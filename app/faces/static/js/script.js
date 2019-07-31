@@ -44,6 +44,7 @@ $(document).ready(function() {
     $("#submitbutton").click(function() {
         $("#submitbutton").addClass("d-none");
         $("#uploadspinner").removeClass("d-none");
+        $("#preview").addClass("imgdesat");
         $.post("/upload", { imagedata: $('#preview').attr("src") }, function(data) {
             if (parseInt(data) > 0) {
                 $('[href="#existing"]').tab('show');
