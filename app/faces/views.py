@@ -43,13 +43,16 @@ def login():
         timestamp = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
         key = "%s.png" % timestamp
 
-        session = boto3.session.Session(aws_access_key_id=access_key, aws_secret_access_key=secret_key)
-        s3 = session.resource(service_name='s3', endpoint_url=s3_endpoint)
-        s3.Bucket(s3_bucket).put_object(Key=key, Body=data)
-
-        obj = s3.Object(s3_bucket, key)
-        obj.wait_until_exists()
-        size = obj.content_length
+        size = 0
+        try:
+            session = boto3.session.Session(aws_access_key_id=access_key, aws_secret_access_key=secret_key)
+            s3 = session.resource(service_name='s3', endpoint_url=s3_endpoint)
+            s3.Bucket(s3_bucket).put_object(Key=key, Body=data)
+            obj = s3.Object(s3_bucket, key)
+            obj.wait_until_exists()
+            size = obj.content_length
+        except Exception as e:
+            print("Error uploading image: %s" % e)
 
         return jsonify(size)
 
