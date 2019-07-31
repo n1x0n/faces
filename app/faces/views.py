@@ -1,12 +1,19 @@
 #from .models import User, get_todays_recent_posts
 from flask import Flask, request, session, redirect, url_for, render_template, flash
+import datetime
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('dummy.html')
+    return render_template('index.html')
 
+@app.route('/upload', methods=['POST'])
+def login():
+    if request.method == 'POST':
+        timestamp = datetime.datetime().strftime('%Y%m%d-%H%M%S')
+        return render_template('index.html')
+        
 """ @app.route('/register', methods=['GET','POST'])
 def register():
     if request.method == 'POST':

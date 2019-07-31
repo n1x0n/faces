@@ -1,14 +1,14 @@
 /* Script */
-$(document).ready(function() {
-    $('#imageselector').change(function() {
+$(document).ready(function () {
+    $('#imageselector').change(function () {
         var file = document.querySelector('input[type=file]').files[0];
         var reader = new FileReader();
 
-        reader.addEventListener("load", function() {
+        reader.addEventListener("load", function () {
             var image = new Image();
             var degrees = 0;
-            image.onload = function() {
-                EXIF.getData(image, function() {
+            image.onload = function () {
+                EXIF.getData(image, function () {
                     orientation = EXIF.getTag(this, "Orientation");
                     $("#rotation").html(" Orientation: " + orientation);
                     switch (orientation) {
@@ -23,7 +23,7 @@ $(document).ready(function() {
                             break;
                     }
                 });
-                resizeImage(reader.result, 480, degrees, function(newurl) {
+                resizeImage(reader.result, 480, degrees, function (newurl) {
                     $('#preview').attr("src", newurl);
                     $('#photoclicker').addClass("d-none");
                     $('#preview').removeClass("d-none");
@@ -43,7 +43,7 @@ $(document).ready(function() {
 function resizeImage(url, size, degrees, callback) {
     var sourceImage = new Image();
 
-    sourceImage.onload = function() {
+    sourceImage.onload = function () {
         // Create a canvas with the desired dimensions
         var canvas = document.createElement("canvas");
 
