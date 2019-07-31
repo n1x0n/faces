@@ -59,11 +59,9 @@ $(document).ready(function() {
             $('#photoclicker').removeClass("d-none");
         });
     });
-
-    $("#loadfiles").click(alert("nisse"));
-
-
 });
+
+$("#loadfiles").click(filelist());
 
 
 function filelist() {
