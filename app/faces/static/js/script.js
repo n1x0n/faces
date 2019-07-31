@@ -63,8 +63,9 @@ $(document).ready(function() {
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
         var currentTab = $(e.target).attr("id");
         console.log(currentTab);
-        if (currentTab == "existing") {
+        if (currentTab == "existing-tab") {
             alert("On existing");
+            filelist();
         }
     });
 
