@@ -59,9 +59,11 @@ $(document).ready(function() {
             $('#photoclicker').removeClass("d-none");
         });
     });
+
+    $("#fixmefixme").click(filelist());
 });
 
-//$("#loadfiles").click(filelist());
+
 
 
 function filelist() {
