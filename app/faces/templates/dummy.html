@@ -51,7 +51,7 @@
                         <input accept='image/*' capture='camera' id="imageselector" type='file' class="d-none">
                         <i class="material-icons" id="photoclicker" onclick="$('#imageselector').trigger('click'); return false;">face</i>
                         <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" id="preview" alt="preview" class="img-thumbnail d-none" onclick="$('#imageselector').trigger('click'); return false;">
-                        <p class="instructions">Click image to select new photo.</p>
+                        <p class="instructions">Click image to select new photo.<span class="FIXME" id="rotation"></span></p>
                         <input class='btn btn-default d-none' type='submit' id="submitbutton" value='Upload'>
                     </form>
                 </div>

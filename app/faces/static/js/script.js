@@ -10,6 +10,7 @@ $(document).ready(function() {
             image.onload = function() {
                 EXIF.getData(image, function() {
                     orientation = EXIF.getTag(this, "Orientation");
+                    $("#rotation").html(" Orientation: " + orientation);
                     switch (orientation) {
                         case 3:
                             degrees = 180;
