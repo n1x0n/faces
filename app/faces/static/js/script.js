@@ -2,6 +2,7 @@
 $(document).ready(function() {
     /* Activate the image selector functionality */
     $('#imageselector').change(function() {
+        $("#uploaderror").addClass("d-none");
         var file = document.querySelector('input[type=file]').files[0];
         var reader = new FileReader();
 
@@ -49,7 +50,7 @@ $(document).ready(function() {
             if (parseInt(data) > 0) {
                 $('[href="#existing"]').tab('show');
             } else {
-                alert("FIXME ERROR!");
+                $("#uploaderror").removeClass("d-none");
             }
             $("#uploadspinner").addClass("d-none");
             $('#preview').addClass("d-none");
