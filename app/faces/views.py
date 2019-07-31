@@ -19,6 +19,8 @@ def login():
             return render_template('index.html', infopanel=infopanel)
         
         file = request.files['file']
+
+        
         infopanel = file
         timestamp = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
         #data = Base64.decode64(params[:file].to_s)
