@@ -66,10 +66,13 @@ def imagelist():
         client = boto3.client(service_name='s3', endpoint_url=s3_endpoint,
                           aws_access_key_id=access_key, aws_secret_access_key=secret_key)
         paginator = client.get_paginator("list_objects_v2")
-        for page in paginator.paginate(Bucket="my-bucket-name"):
-            print(page["Contents"])
+        for page in paginator.paginate(Bucket=s3_bucket):
+            for obj in page['Contents']:
+                imagelist[obj['key']] = obj
     except Exception as e:
         print("Error uploading image: %s" % e)
+
+    return jsonify(imagelist)
 
 
 def get_all_s3_keys(bucket, s3):
