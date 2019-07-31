@@ -60,7 +60,23 @@ $(document).ready(function() {
         });
     });
 
+
+
+
 });
+
+
+function loadfiles() {
+    $.getJSON("/imagelist", function(data) {
+        var items = [];
+        $.each(data, function(key, val) {
+            items.push("<li id='" + key + "'>" + val + "</li>");
+        });
+
+        $("#files").html(items.join(""));
+    });
+}
+
 
 
 function resizeImage(url, size, degrees, callback) {
