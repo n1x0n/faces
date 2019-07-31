@@ -70,7 +70,11 @@ function loadfiles() {
     $.getJSON("/imagelist", function(data) {
         var items = [];
         $.each(data, function(key, val) {
-            items.push("<li id='" + key + "'>" + val + "</li>");
+            items.push("<tr>");
+            items.push("<td>" + key + "</td>");
+            items.push("<td>" + val["LastModified"] + "</td>");
+            items.push("<td>" + val["Size"] + "</td>");
+            items.push("</tr>");
         });
 
         $("#files").html(items.join(""));
