@@ -67,6 +67,7 @@ $(document).ready(function() {
 
 
 function loadfiles() {
+    alert("Loading");
     $("#loading").removeClass("d-none");
     $.getJSON("/imagelist", function(data) {
         var items = [];
