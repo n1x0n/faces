@@ -1,5 +1,6 @@
 /* Script */
 $(document).ready(function () {
+    /* Activate the image selector functionality */
     $('#imageselector').change(function () {
         var file = document.querySelector('input[type=file]').files[0];
         var reader = new FileReader();
@@ -37,6 +38,24 @@ $(document).ready(function () {
             reader.readAsDataURL(file);
         }
     });
+
+
+    /* Activate the upload button */
+    $("#submitbutton").click(function() {
+        $("#submitbutton").addClass("d-none");
+        $("#uploadspinner").removeClass("d-none");
+        $.post( "/upload", { imagedata: $('#preview').attr("src") }, function( data ) {
+            alert( "Data Loaded: " + data );
+            if (parseInt(data) > 0) {
+                $('.nav-tabs a[href="#existing"]').tab('show');
+            } else {
+                alert("FIXME ERROR!");
+            }
+            $("#uploadspinner").addClass("d-none");
+            $('#submitbutton').removeClass("d-none");
+        });
+    });
+
 });
 
 
