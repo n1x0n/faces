@@ -60,13 +60,13 @@ $(document).ready(function() {
         });
     });
 
-    $("#loadfiles").click(loadfiles());
+    $("#loadfiles").click(filelist());
 
 
 });
 
 
-function loadfiles() {
+function filelist() {
     alert("Loading");
     $("#loading").removeClass("d-none");
     $.getJSON("/imagelist", function(data) {
