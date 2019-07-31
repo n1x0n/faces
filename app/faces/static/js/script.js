@@ -79,13 +79,29 @@ function filelist() {
     $("#loading").removeClass("d-none");
     $.getJSON("/imagelist", function(data) {
         var items = [];
+        var objects = {};
         $.each(data, function(key, val) {
+            var dummy = {
+                Key: key,
+                LastModified: val["LastModified"],
+                Size: val["Size"]
+            };
+            objects[key] = dummy;
+        });
+
+        var keys = Object.keys(objects);
+        keys.sort();
+
+        for (var i = 0; i < keys.length; i++) {
+            var key = keys[i];
+            var val = objects[key];
             items.push("<tr>");
             items.push("<td>" + key + "</td>");
             items.push("<td>" + val["LastModified"] + "</td>");
             items.push("<td>" + val["Size"] + "</td>");
             items.push("</tr>");
-        });
+        }
+
 
         $("#files").html(items.join(""));
         $("#loading").addClass("d-none");
