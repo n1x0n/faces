@@ -53,6 +53,7 @@ $(document).ready(function() {
             }
             $("#uploadspinner").addClass("d-none");
             $('#preview').addClass("d-none");
+            $("#preview").removeClass("imagedesat");
             $('#preview').attr("src", "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
             $('#photoclicker').removeClass("d-none");
         });
