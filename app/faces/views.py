@@ -68,7 +68,8 @@ def imagelist():
         paginator = client.get_paginator("list_objects_v2")
         for page in paginator.paginate(Bucket=s3_bucket):
             for obj in page:
-                imagelist[obj['Key']] = obj
+                #imagelist[obj['Key']] = obj
+                print("%s" % obj)
     except Exception as e:
         print("Error reading bucket %s: %s" % (s3_bucket, e))
 
