@@ -60,7 +60,7 @@ $(document).ready(function() {
         });
     });
 
-    $("#loadfiles").click(filelist());
+    $("#loadfiles").click(alert("nisse"));
 
 
 });
