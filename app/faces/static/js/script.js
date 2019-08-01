@@ -14,7 +14,7 @@ $(document).ready(function() {
                     if (orientation == 0) {
                         var allMetaData = EXIF.getAllTags(this);
                         alert(JSON.stringify(allMetaData, null, "\t"));
-                        alert(allMetaData.PixelXDimension);
+                        alert(allMetaData.Orientation);
                     }
                     $("#rotation").html(" Orientation: " + orientation);
 
