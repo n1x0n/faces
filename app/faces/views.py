@@ -4,6 +4,7 @@ import datetime
 from base64 import b64decode, b64encode
 from flask import Flask, request, session, redirect, url_for, render_template, json, jsonify
 import boto3
+import requests
 
 
 app = Flask(__name__)
@@ -17,7 +18,11 @@ if (os.environ.get("APPNAME")):
     appname = os.environ.get("APPNAME")
 applogo = "/static/img/free_logo.svg"
 if (os.environ.get("APPLOGO")):
-    applogo = "/static/img/%s" % os.environ.get("APPLOGO")
+    url = os.environ.get("APPLOGO")
+    imageb64 = b64encode(requests.get(url).content)
+    imageb64 = str(imageb64, "utf-8")
+    suffix = os.path.splitext(url)[1][1:]
+    applogo = "data:image/%s;base64,%s" % (suffix, imageb64)
 
 if not (access_key and secret_key and s3_endpoint and s3_bucket):
     print("Unable to find environment variables")
@@ -26,11 +31,20 @@ if not (access_key and secret_key and s3_endpoint and s3_bucket):
 
 @app.route('/')
 def index():
-    return render_template('index.html', appname=appname, applogo=applogo)
+    return render_template('index.html')
+
+
+@app.route('/appmeta')
+def appmeta():
+    metadata = {
+        "appname": appname,
+        "applogo": applogo
+    }
+    return jsonify(metadata)
 
 
 @app.route('/upload', methods=['POST'])
-def login():
+def upload():
     if request.method == 'POST':
         infopanel = False
 
@@ -38,13 +52,13 @@ def login():
 
         if not imagedata:
             infopanel = "No image received"
-            return render_template('index.html', infopanel=infopanel, appname=appname, applogo=applogo)
+            return render_template('index.html', infopanel=infopanel)
 
         header, encoded = imagedata.split(",", 1)
 
         if not header == "data:image/png;base64":
             infopanel = "No image in data url"
-            return render_template('index.html', infopanel=infopanel, appname=appname, applogo=applogo)
+            return render_template('index.html', infopanel=infopanel)
 
         data = b64decode(encoded)
         timestamp = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')

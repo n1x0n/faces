@@ -57,3 +57,7 @@ h3,
 #metaloading {
     text-align: center;
 }
+
+#appinfo {
+    display: none;
+}

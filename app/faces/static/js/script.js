@@ -68,6 +68,17 @@ $(document).ready(function() {
         }
     });
 
+
+    $.getJSON("/appmeta", function(data) {
+        var appname = data.appname;
+        var applogo = data.applogo;
+        $("#applogo").on("load", function() {
+            $("#appinfo").fadeIn();
+        });
+        $("#applogo").attr("src", applogo);
+        $("#appname").html(appname);
+    });
+
     $('#imageinfo').on('show.bs.modal', function (event) {
         var row = event.relatedTarget;
         var base64 = row.dataset.base64;
@@ -208,3 +219,5 @@ function resizeImage(url, size, degrees, callback) {
 
     sourceImage.src = url;
 }
+
+
