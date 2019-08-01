@@ -105,15 +105,23 @@
                     </p>
                     <h3>How was it made?</h3>
                     <p>
-                        The frontend is actually just one static html page, some css formatting and then I use JavaScript to talk to the backend and dynamically update the page in the user's browser. I serve these files using Nginx and based my container on the official Nginx
-                        Docker image. Since I have zero talent for web design I use Bootstrap 4 and jQuery to build this. I also used Exif.js to rotate any pictures taken with cell phone cameras before they are uploaded.
+                        The frontend is actually just one static html page, some css formatting and then I use javascript to talk to the backend and dynamically update the page in the user's browser. I serve these static files using <a href="https://www.nginx.com/">Nginx</a>                        and based my container on the official Nginx Docker image. Since I have zero talent for web design I used <a href="https://getbootstrap.com/">Bootstrap 4</a> and <a href="https://jquery.com/">jQuery</a> to build the web page which
+                        makes it really simple to build a decent looking web application. I also used <a href="https://github.com/exif-js/exif-js">Exif.js</a> to rotate any pictures taken with cell phone cameras before they are uploaded.
                     </p>
                     <p>
-                        The backend is written in Python 3 using Flask. I also use Boto 3 for all S3 communication. Writing a web application in Flask is extremely easy. (I spent more time figuring out how to rotate images in JavaScript than it took to write the entire backend.)
-                        The backend runs in it's own Docker container based on the official Python 3 images.
+                        The backend is written in Python 3 using <a href="https://palletsprojects.com/p/flask/">Flask</a>. I also use <a href="https://github.com/boto/boto3">Boto 3</a> for all S3 communication. Writing a web application in Flask is really
+                        simple and to be honest I spent more time figuring out how to rotate images in javascript than it took to write the entire backend. The backend runs in it's own Docker container based on the official Python 3 images.
                     </p>
                     <p>
-                        I hope you enjoyed using this simple demo application and feel free to look at the code and use it for your own projects.
+                        The source code for this application is available on <a href="https://github.com/n1x0n/faces">GitHub</a>.
+                    </p>
+                    <h3>Who wrote this?</h3>
+                    <img src="https://avatars1.githubusercontent.com/u/2221245?s=128&v=4">
+                    <p>
+                        My name is Fredrik Nygren and I am the SE Manager at NetApp Sweden. I am not a developer but sometimes I play one on the Internet. All code I write is provided as-is and is not supported by NetApp or me.
+                    </p>
+                    <p>
+                        Feel free to connect on <a href="https://www.linkedin.com/in/fnygren/">LinkedIn</a>, follow me on <a href="https://twitter.com/fredrikforlife">Twitter</a> or <a href="https://github.com/n1x0n">GitHub</a>.
                     </p>
                 </div>
             </div>
