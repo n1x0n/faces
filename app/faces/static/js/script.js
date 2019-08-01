@@ -11,11 +11,12 @@ $(document).ready(function() {
             image.onload = function() {
                 EXIF.getData(image, function() {
                     orientation = EXIF.getTag(this, "Orientation");
+                    if (orientation == 0) {
+                        var allMetaData = EXIF.getAllTags(this);
+                        orientation = allMetaData.Orientation;
+                    }
                     $("#rotation").html(" Orientation: " + orientation);
-                    // FIXME Code to fix cell camera below
-                    var allMetaData = EXIF.getAllTags(this);
-                    $("#rotation").html(JSON.stringify(allMetaData, null, "\t"));
-                    // FIXME End fixes
+
                     switch (orientation) {
                         case 3:
                             degrees = 180;
