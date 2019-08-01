@@ -89,7 +89,32 @@
             <div class="tab-pane fade" id="about" role="tabpanel" aria-labelledby="about-tab">
                 <div class="container">
                     <h1>About this page</h1>
-                    <p>This is a demo app...</p>
+                    <p>This is an app used to demo NetApp StorageGRID and the integration it has with the public clouds.</p>
+                    <p>
+                        The application has two parts, this frontend that you are looking at now and a backend that takes care of all communication with NetApp StorageGRID using the S3 protocol. These run in separate Docker containers, I did this to mimic the way modern applications
+                        are built using disaggregated micro services and also because I wanted an excuse to use Istio in my deployment.
+                    </p>
+                    <p>
+                        Whenever an image is uploaded it gets sent to the backend which then stores into a predefined bucket in NetApp StorageGRID. This bucket has been configured to use notifications, so anytime a new file gets stored in the bucket a message gets sent to AWS
+                        Simple Notification Service. This message triggers an AWS Lambda script that sends a presigned url for the image to Azure Cognitive Services. Azure identifies faces in the image and returns a set of metadata to AWS Lambda. As a
+                        final step Lambda then tags the image with metadata in NetApp StorageGRID using the S3 protocol. The image never gets stored in the cloud, but for a brief moment it is made accessible to public cloud services. The same workflow
+                        could be used for any type of data with any type of cloud service which makes it pretty useful.
+                    </p>
+                    <p>
+                        The existing files tab allows you to look at any images stored in the bucket and the metadata associated with them. It usually takes a couple of seconds for the tagging to complete, so if you find no metadata you might want to try again in a minute.
+                    </p>
+                    <h3>How was it made?</h3>
+                    <p>
+                        The frontend is actually just one static html page, some css formatting and then I use JavaScript to talk to the backend and dynamically update the page in the user's browser. I serve these files using Nginx and based my container on the official Nginx
+                        Docker image. Since I have zero talent for web design I use Bootstrap 4 and jQuery to build this. I also used Exif.js to rotate any pictures taken with cell phone cameras before they are uploaded.
+                    </p>
+                    <p>
+                        The backend is written in Python 3 using Flask. I also use Boto 3 for all S3 communication. Writing a web application in Flask is extremely easy. (I spent more time figuring out how to rotate images in JavaScript than it took to write the entire backend.)
+                        The backend runs in it's own Docker container based on the official Python 3 images.
+                    </p>
+                    <p>
+                        I hope you enjoyed using this simple demo application and feel free to look at the code and use it for your own projects.
+                    </p>
                 </div>
             </div>
         </div>
@@ -140,44 +165,6 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class='modal fade' id='versions-modal' role='dialog'>
-            <div class='modal-dialog'>
-                <div class='modal-content'>
-                    <div class='modal-header'>
-                        <button class='close' data-dismiss='modal' type='button'>&times;</button>
-                        <h4 class='modal-title'>Object Versions and Metadata</h4>
-                    </div>
-                    <div class='modal-body'>
-                        <div class='row'>
-                            <div class='col-xs-12' id='image'></div>
-                        </div>
-                        <table class='table table-condensed'>
-                            <thead>
-                                <tr>
-                                    <th class='col-s-8'>Metadata</th>
-                                    <th class='col-s-4'>Value</th>
-                                    <tbody id='metadata'></tbody>
-                                </tr>
-                            </thead>
-                        </table>
-                        <table class='table table-condensed'>
-                            <thead>
-                                <tr>
-                                    <th class='col-s-8'>Date</th>
-                                    <th class='col-s-3'>Size</th>
-                                    <th class='col-s-1'>Action</th>
-                                    <tbody id='versions'></tbody>
-                                </tr>
-                            </thead>
-                        </table>
-                        <div class="spinner-border" role="status" id="versionloader">
-                            <span class="sr-only">Loading...</span>
-                        </div>
                     </div>
                 </div>
             </div>
