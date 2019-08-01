@@ -12,6 +12,7 @@ $(document).ready(function() {
                 EXIF.getData(image, function() {
                     orientation = EXIF.getTag(this, "Orientation");
                     if (orientation == 0) {
+                        alert("Error ->" + orientation + "<--");
                         var allMetaData = EXIF.getAllTags(this);
                         orientation = allMetaData.Orientation;
                     }
