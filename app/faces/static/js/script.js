@@ -10,7 +10,7 @@ $(document).ready(function() {
             var degrees = 0;
             image.onload = function() {
                 EXIF.getData(image, function() {
-                    orientation = EXIF.getTag(this, "Orientation");
+                    var orientation = EXIF.getTag(this, "Orientation");
                     if (orientation == 0) {
                         var allMetaData = EXIF.getAllTags(this);
                         alert(allMetaData.Orientation);
