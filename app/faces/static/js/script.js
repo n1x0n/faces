@@ -112,7 +112,7 @@ function filelist() {
 
 function shortDate(datestring) {
     var date = new Date(datestring);
-    return (date.toLocaleString);
+    return (date.toLocaleString());
 }
 
 
