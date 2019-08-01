@@ -11,13 +11,6 @@ $(document).ready(function() {
             image.onload = function() {
                 EXIF.getData(image, function() {
                     var orientation = EXIF.getTag(this, "Orientation");
-                    if (orientation == 0) {
-                        var allMetaData = EXIF.getAllTags(this);
-                        alert(allMetaData.Orientation);
-                        orientation = allMetaData.Orientation;
-                    }
-                    $("#rotation").html(" Orientation: " + orientation);
-
                     switch (orientation) {
                         case 3:
                             degrees = 180;
