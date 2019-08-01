@@ -98,7 +98,7 @@ function filelist() {
             var val = objects[key];
             items.push("<tr>");
             items.push("<td>" + key + "</td>");
-            items.push("<td>" + val["LastModified"] + "</td>");
+            items.push("<td>" + shortDate(val["LastModified"]) + "</td>");
             items.push("<td>" + bytesToSize(val["Size"]) + "</td>");
             items.push("</tr>");
         }
@@ -107,6 +107,12 @@ function filelist() {
         $("#files").html(items.join(""));
         $("#loading").addClass("d-none");
     });
+}
+
+
+function shortDate(datestring) {
+    var date = new Date(datestring);
+    return (date.toLocaleString);
 }
 
 
