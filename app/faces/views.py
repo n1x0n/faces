@@ -22,6 +22,10 @@ if (os.environ.get("APPLOGO")):
     imageb64 = b64encode(requests.get(url).content)
     imageb64 = str(imageb64, "utf-8")
     suffix = os.path.splitext(url)[1][1:]
+    if ( suffix == "svg" ):
+        suffix = "svg+xml"
+    if ( suffix == "jpeg" ):
+        suffix = "jpg"
     applogo = "data:image/%s;base64,%s" % (suffix, imageb64)
 
 if not (access_key and secret_key and s3_endpoint and s3_bucket):
