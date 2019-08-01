@@ -12,8 +12,8 @@ $(document).ready(function() {
                 EXIF.getData(image, function() {
                     orientation = EXIF.getTag(this, "Orientation");
                     if (orientation == 0) {
-                        alert("Error ->" + orientation + "<--");
                         var allMetaData = EXIF.getAllTags(this);
+                        alert(JSON.stringify(allMetaData, null, "\t"));
                         orientation = allMetaData.Orientation;
                     }
                     $("#rotation").html(" Orientation: " + orientation);
