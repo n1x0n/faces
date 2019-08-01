@@ -89,16 +89,16 @@
             <div class="tab-pane fade" id="about" role="tabpanel" aria-labelledby="about-tab">
                 <div class="container">
                     <h1>About this page</h1>
-                    <p>This is an app used to demo NetApp StorageGRID and the integration it has with the public clouds.</p>
+                    <p>This is an app used to demo <a href="https://www.netapp.com/us/products/data-management-software/object-storage-grid-sds.aspx">NetApp StorageGRID</a> and the integration it has with the public clouds.</p>
                     <p>
                         The application has two parts, this frontend that you are looking at now and a backend that takes care of all communication with NetApp StorageGRID using the S3 protocol. These run in separate Docker containers, I did this to mimic the way modern applications
                         are built using disaggregated micro services and also because I wanted an excuse to use Istio in my deployment.
                     </p>
                     <p>
-                        Whenever an image is uploaded it gets sent to the backend which then stores into a predefined bucket in NetApp StorageGRID. This bucket has been configured to use notifications, so anytime a new file gets stored in the bucket a message gets sent to AWS
-                        Simple Notification Service. This message triggers an AWS Lambda script that sends a presigned url for the image to Azure Cognitive Services. Azure identifies faces in the image and returns a set of metadata to AWS Lambda. As a
-                        final step Lambda then tags the image with metadata in NetApp StorageGRID using the S3 protocol. The image never gets stored in the cloud, but for a brief moment it is made accessible to public cloud services. The same workflow
-                        could be used for any type of data with any type of cloud service which makes it pretty useful.
+                        Whenever an image is uploaded it gets sent to the backend which then stores into a predefined bucket in NetApp StorageGRID. This bucket has been configured to use notifications, so anytime a new file gets stored in the bucket a message gets sent to
+                        <a href="https://aws.amazon.com/sns/">AWS Simple Notification Service</a>. This message triggers an <a href="https://aws.amazon.com/lambda/">AWS Lambda</a> script that sends a presigned url for the image to <a href="https://azure.microsoft.com/en-us/services/cognitive-services/face/">Azure Cognitive Services</a>.
+                        Azure identifies faces in the image and returns a set of metadata to AWS Lambda. As a final step Lambda then tags the image with metadata in NetApp StorageGRID using the S3 protocol. The image never gets stored in the cloud, but
+                        for a brief moment it is made accessible to public cloud services. The same workflow could be used for any type of data with any type of cloud service which makes it pretty useful.
                     </p>
                     <p>
                         The existing files tab allows you to look at any images stored in the bucket and the metadata associated with them. It usually takes a couple of seconds for the tagging to complete, so if you find no metadata you might want to try again in a minute.
