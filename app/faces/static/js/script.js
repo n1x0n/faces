@@ -12,6 +12,10 @@ $(document).ready(function() {
                 EXIF.getData(image, function() {
                     orientation = EXIF.getTag(this, "Orientation");
                     $("#rotation").html(" Orientation: " + orientation);
+                    // FIXME Code to fix cell camera below
+                    var allMetaData = EXIF.getAllTags(this);
+                    $("#rotation").html(JSON.stringify(allMetaData, null, "\t"));
+                    // FIXME End fixes
                     switch (orientation) {
                         case 3:
                             degrees = 180;
@@ -79,7 +83,7 @@ $(document).ready(function() {
         $("#appname").html(appname);
     });
 
-    $('#imageinfo').on('show.bs.modal', function (event) {
+    $('#imageinfo').on('show.bs.modal', function(event) {
         var row = event.relatedTarget;
         var base64 = row.dataset.base64;
         $.getJSON("/imageurl/" + base64, function(data) {
@@ -102,7 +106,7 @@ $(document).ready(function() {
                 });
                 html = items.join("");
             }
-            if ( html == "" ) {
+            if (html == "") {
                 html = "<p>No metadata found.</p>";
             }
             $("#metadata").html(html);
@@ -111,7 +115,7 @@ $(document).ready(function() {
         });
     })
 
-    $('#imageinfo').on('hidden.bs.modal', function (event) {
+    $('#imageinfo').on('hidden.bs.modal', function(event) {
         $("#selfie").off("load");
         $("#selfiediv").addClass("d-none");
         $("#selfieloading").removeClass("d-none");
@@ -219,5 +223,3 @@ function resizeImage(url, size, degrees, callback) {
 
     sourceImage.src = url;
 }
-
-
