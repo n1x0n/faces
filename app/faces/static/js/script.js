@@ -148,9 +148,9 @@ function filelist() {
             var key = keys[i];
             var val = objects[key];
             items.push('<tr class="imagerow" data-toggle="modal" data-target="#imageinfo" data-base64="' + val.base64 + '">');
-            items.push("<td>" + key + "</td>");
-            items.push("<td>" + shortDate(val.LastModified) + "</td>");
-            items.push("<td>" + bytesToSize(val.Size) + "</td>");
+            items.push('<td data-toggle="modal" data-target="#imageinfo" data-base64="' + val.base64 + '">' + key + "</td>");
+            items.push('<td data-toggle="modal" data-target="#imageinfo" data-base64="' + val.base64 + '">' + shortDate(val.LastModified) + "</td>");
+            items.push('<td data-toggle="modal" data-target="#imageinfo" data-base64="' + val.base64 + '">' + bytesToSize(val.Size) + "</td>");
             items.push("</tr>");
         }
 
