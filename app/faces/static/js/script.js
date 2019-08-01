@@ -13,8 +13,8 @@ $(document).ready(function() {
                     orientation = EXIF.getTag(this, "Orientation");
                     if (orientation == 0) {
                         var allMetaData = EXIF.getAllTags(this);
-                        alert(JSON.stringify(allMetaData, null, "\t"));
                         alert(allMetaData.Orientation);
+                        orientation = allMetaData.Orientation;
                     }
                     $("#rotation").html(" Orientation: " + orientation);
 
@@ -115,7 +115,7 @@ $(document).ready(function() {
             $("#metaloading").addClass("d-none");
             $("#metadiv").removeClass("d-none");
         });
-    })
+    });
 
     $('#imageinfo').on('hidden.bs.modal', function(event) {
         $("#selfie").off("load");
