@@ -83,8 +83,9 @@ function filelist() {
         $.each(data, function(key, val) {
             var dummy = {
                 Key: key,
-                LastModified: val["LastModified"],
-                Size: val["Size"]
+                LastModified: val.LastModified,
+                Size: val.Size,
+                base64: val.base64
             };
             objects[key] = dummy;
         });
@@ -96,10 +97,10 @@ function filelist() {
         for (var i = 0; i < keys.length; i++) {
             var key = keys[i];
             var val = objects[key];
-            items.push("<tr>");
+            items.push("<tr class='imagerow' data-base64='" + val.base64 + "'>");
             items.push("<td>" + key + "</td>");
-            items.push("<td>" + shortDate(val["LastModified"]) + "</td>");
-            items.push("<td>" + bytesToSize(val["Size"]) + "</td>");
+            items.push("<td>" + shortDate(val.LastModified) + "</td>");
+            items.push("<td>" + bytesToSize(val.Size) + "</td>");
             items.push("</tr>");
         }
 

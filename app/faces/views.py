@@ -1,7 +1,7 @@
 import os
 import sys
 import datetime
-from base64 import b64decode
+from base64 import b64decode, b64encode
 from flask import Flask, request, session, redirect, url_for, render_template, json, jsonify
 import boto3
 
@@ -68,6 +68,7 @@ def imagelist():
         paginator = client.get_paginator("list_objects_v2")
         for page in paginator.paginate(Bucket=s3_bucket):
             for obj in page["Contents"]:
+                obj['base64'] = b64encode(obj['Key'])
                 imagelist[obj['Key']] = obj
     except Exception as e:
         print("Error reading bucket %s: %s" % (s3_bucket, e))
