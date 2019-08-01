@@ -12,6 +12,12 @@ access_key = os.environ.get("ACCESS_KEY")
 secret_key = os.environ.get("SECRET_KEY")
 s3_endpoint = os.environ.get("S3_ENDPOINT")
 s3_bucket = os.environ.get("S3_BUCKET")
+appname = "Faces"
+if (os.environ.get("APPNAME")):
+    appname = os.environ.get("APPNAME")
+applogo = "/static/img/free_logo.svg"
+if (os.environ.get("APPLOGO")):
+    applogo = "/static/img/%s" % os.environ.get("APPLOGO")
 
 if not (access_key and secret_key and s3_endpoint and s3_bucket):
     print("Unable to find environment variables")
@@ -20,7 +26,7 @@ if not (access_key and secret_key and s3_endpoint and s3_bucket):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', appname=appname, applogo=applogo)
 
 
 @app.route('/upload', methods=['POST'])
@@ -32,13 +38,13 @@ def login():
 
         if not imagedata:
             infopanel = "No image received"
-            return render_template('index.html', infopanel=infopanel)
+            return render_template('index.html', infopanel=infopanel, appname=appname, applogo=applogo)
 
         header, encoded = imagedata.split(",", 1)
 
         if not header == "data:image/png;base64":
             infopanel = "No image in data url"
-            return render_template('index.html', infopanel=infopanel)
+            return render_template('index.html', infopanel=infopanel, appname=appname, applogo=applogo)
 
         data = b64decode(encoded)
         timestamp = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
@@ -57,6 +63,44 @@ def login():
             print("Error uploading image: %s" % e)
 
         return jsonify(size)
+
+
+@app.route('/imageurl/<string:base64>')
+def imageurl(base64):
+    key = str(b64decode(base64), "utf-8")
+    url = ""
+    try:
+        client = boto3.client(service_name='s3', endpoint_url=s3_endpoint,
+                          aws_access_key_id=access_key, aws_secret_access_key=secret_key)
+        url = client.generate_presigned_url('get_object',
+                                                 Params={'Bucket': s3_bucket,
+                                                            'Key': key},
+                                                 ExpiresIn=10)
+    except Exception as e:
+        print("Error generating url for %s: %s" % (key, e))
+
+    if url:
+        url = str(b64encode(url.encode()), "utf-8")
+
+    return jsonify(url)
+
+
+
+@app.route('/imagemeta/<string:base64>')
+def imagemeta(base64):
+    key = str(b64decode(base64), "utf-8")
+    meta = {}
+    try:
+        session = boto3.session.Session(
+            aws_access_key_id=access_key, aws_secret_access_key=secret_key)
+        s3 = session.resource(service_name='s3', endpoint_url=s3_endpoint)
+        obj = s3.Object(s3_bucket, key)
+        meta = obj.metadata
+    except Exception as e:
+        print("Error getting metadata for %s: %s" % (key, e))
+
+    return jsonify(meta)
+
 
 
 @app.route('/imagelist')

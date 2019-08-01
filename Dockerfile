@@ -2,6 +2,7 @@ FROM python:3-alpine
 LABEL maintainer="Fredrik Nygren <fredrik@phight.club>"
 
 RUN apk add --no-cache wget
+RUN apk add --no-cache bash
 
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt && rm requirements.txt
@@ -12,4 +13,4 @@ COPY /app /app
 WORKDIR /app
 
 EXPOSE 5000
-ENTRYPOINT ["python", "run.py"]
+ENTRYPOINT ["./start.sh"]

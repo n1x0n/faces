@@ -68,7 +68,47 @@ $(document).ready(function() {
         }
     });
 
+    $('#imageinfo').on('show.bs.modal', function (event) {
+        var row = event.relatedTarget;
+        var base64 = row.dataset.base64;
+        $.getJSON("/imageurl/" + base64, function(data) {
+            $("#selfie").on("load", function() {
+                $("#selfieloading").addClass("d-none");
+                $("#selfiediv").removeClass("d-none");
+            });
+            var url = data;
+            $("#selfie").attr("src", atob(url));
+        });
+        $.getJSON("/imagemeta/" + base64, function(data) {
+            var html = "";
+            if (data) {
+                var items = [];
+                $.each(data, function(key, val) {
+                    items.push('<tr>');
+                    items.push("<td>" + key + "</td>");
+                    items.push("<td>" + val + "</td>");
+                    items.push('</tr>');
+                });
+                html = items.join("");
+            }
+            if ( html == "" ) {
+                html = "<p>No metadata found.</p>";
+            }
+            $("#metadata").html(html);
+            $("#metaloading").addClass("d-none");
+            $("#metadiv").removeClass("d-none");
+        });
+    })
 
+    $('#imageinfo').on('hidden.bs.modal', function (event) {
+        $("#selfie").off("load");
+        $("#selfiediv").addClass("d-none");
+        $("#selfieloading").removeClass("d-none");
+        $("#metadiv").addClass("d-none");
+        $("#metadata").html("");
+        $("#metaloading").removeClass("d-none");
+        $('#selfie').attr("src", "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
+    });
 
 });
 
@@ -97,7 +137,7 @@ function filelist() {
         for (var i = 0; i < keys.length; i++) {
             var key = keys[i];
             var val = objects[key];
-            items.push("<tr class='imagerow' data-base64='" + val.base64 + "'>");
+            items.push('<tr class="imagerow" data-toggle="modal" data-target="#imageinfo" data-base64="' + val.base64 + '">');
             items.push("<td>" + key + "</td>");
             items.push("<td>" + shortDate(val.LastModified) + "</td>");
             items.push("<td>" + bytesToSize(val.Size) + "</td>");

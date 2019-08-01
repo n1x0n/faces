@@ -14,7 +14,7 @@
         <div class="tophat">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <a class="navbar-brand" href="#">
-                    <img src="/static/img/Netapp_logo.svg" height="30" class="d-inline-block align-top" alt=""> Faces
+                    <img src="{{ applogo }}" height="30" class="d-inline-block align-top" alt=""> {{ appname }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -76,11 +76,6 @@
                             </tr>
                         </thead>
                         <tbody id="files">
-                            <!--<tr>
-                                <td>20190612-143428.jpg</td>
-                                <td>2019-06-12 12:34:42 UTC</td>
-                                <td>1.2 MB</td>
-                            </tr>-->
                         </tbody>
                     </table>
                     <div id="loading" class="d-none">
@@ -105,6 +100,50 @@
         </div>
         {% endif %}
 
+        <div class="modal" id="imageinfo" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Image Metadata</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="selfieloading">
+                            <p class="instructions">Loading image...</p>
+                            <div class="spinner-border text-primary" id="selfiespinner" role="status">
+                                <span class="sr-only">Loading image...</span>
+                            </div>
+                        </div>
+                        <div id="selfiediv" class="d-none">
+                            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" id="selfie" alt="Photo" class="img-thumbnail">
+                        </div>
+                        <div id="metaloading">
+                            <p class="instructions">Loading metadata...</p>
+                            <div class="spinner-border text-primary" id="metaspinner" role="status">
+                                <span class="sr-only">Loading metadata...</span>
+                            </div>
+                        </div>
+                        <div id="metadiv" class="d-none">
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th class="col-s-8">Metadata</th>
+                                        <th class="col-s-4">Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="metadata">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class='modal fade' id='versions-modal' role='dialog'>
             <div class='modal-dialog'>
