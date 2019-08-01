@@ -99,7 +99,7 @@ function filelist() {
             items.push("<tr>");
             items.push("<td>" + key + "</td>");
             items.push("<td>" + val["LastModified"] + "</td>");
-            items.push("<td>" + val["Size"] + "</td>");
+            items.push("<td>" + bytesToSize(val["Size"]) + "</td>");
             items.push("</tr>");
         }
 
@@ -109,6 +109,14 @@ function filelist() {
     });
 }
 
+
+function bytesToSize(bytes) {
+    var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    if (bytes == 0) return 'n/a';
+    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+    if (i == 0) return bytes + ' ' + sizes[i];
+    return (bytes / Math.pow(1024, i)).toFixed(2) + ' ' + sizes[i];
+}
 
 
 function resizeImage(url, size, degrees, callback) {
