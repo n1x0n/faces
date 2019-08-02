@@ -1,0 +1,16 @@
+FROM nginx:1-alpine
+LABEL maintainer="Fredrik Nygren <fredrik@phight.club>"
+
+COPY app/faces/templates/index.html /usr/share/nginx/html
+RUN mkdir /usr/share/nginx/html/static
+COPY app/faces/static /usr/share/nginx/html/static
+
+#RUN pip install -r requirements.txt && rm requirements.txt
+#
+## Copy the entire app
+#RUN mkdir /app
+#COPY /app /app
+#WORKDIR /app
+#
+#EXPOSE 5000
+#ENTRYPOINT ["./start.sh"]

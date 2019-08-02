@@ -115,3 +115,6 @@ dmypy.json
 .pyre/
 
 .vscode/settings.json
+
+# Kubernetes secrets
+kubernetes/*keys*yaml

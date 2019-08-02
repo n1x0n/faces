@@ -45,7 +45,7 @@ $(document).ready(function() {
         $("#submitbutton").addClass("d-none");
         $("#uploadspinner").removeClass("d-none");
         $("#preview").addClass("imagedesat");
-        $.post("/upload", { imagedata: $('#preview').attr("src") }, function(data) {
+        $.post("/api/upload", { imagedata: $('#preview').attr("src") }, function(data) {
             if (parseInt(data) > 0) {
                 $('[href="#existing"]').tab('show');
             } else {
@@ -68,7 +68,7 @@ $(document).ready(function() {
     });
 
 
-    $.getJSON("/appmeta", function(data) {
+    $.getJSON("/api/appmeta", function(data) {
         var appname = data.appname;
         var applogo = data.applogo;
         $("#applogo").on("load", function() {
@@ -81,7 +81,7 @@ $(document).ready(function() {
     $('#imageinfo').on('show.bs.modal', function(event) {
         var row = event.relatedTarget;
         var base64 = row.dataset.base64;
-        $.getJSON("/imageurl/" + base64, function(data) {
+        $.getJSON("/api/imageurl/" + base64, function(data) {
             $("#selfie").on("load", function() {
                 $("#selfieloading").addClass("d-none");
                 $("#selfiediv").removeClass("d-none");
@@ -89,7 +89,7 @@ $(document).ready(function() {
             var url = data;
             $("#selfie").attr("src", atob(url));
         });
-        $.getJSON("/imagemeta/" + base64, function(data) {
+        $.getJSON("/api/imagemeta/" + base64, function(data) {
             var html = "";
             if (data) {
                 var items = [];
@@ -127,7 +127,7 @@ $(document).ready(function() {
 
 function filelist() {
     $("#loading").removeClass("d-none");
-    $.getJSON("/imagelist", function(data) {
+    $.getJSON("/api/imagelist", function(data) {
         var items = [];
         var objects = {};
         $.each(data, function(key, val) {

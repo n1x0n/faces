@@ -1,0 +1,77 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    app: faces-backend
+    istio-injection: enabled
+    name: faces-backend
+  name: faces-backend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: faces-backend
+  name: faces-backend
+  namespace: faces-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: faces-backend
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: faces-backend
+    spec:
+      imagePullSecrets:
+      - name: regcred
+      containers:
+      - env:
+        - name: S3_ENDPOINT
+          value: https://webscaledemo.netapp.com
+        - name: S3_BUCKET
+          value: faces
+        - name: APPNAME
+          value: NetApp Faces
+        - name: APPLOGO
+          value: https://upload.wikimedia.org/wikipedia/en/8/87/Netapp_logo.svg
+        - name: ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              key: access
+              name: faces-backend.s3keys
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              key: secret
+              name: faces-backend.s3keys
+        name: faces-backend
+        image: registry.phight.club/fredrik/faces-backend:1
+        ports:
+        - containerPort: 5000
+          protocol: TCP
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: faces-backend
+  labels:
+    app: faces-backend
+  namespace: faces-backend
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 5000
+      targetPort: 5000
+  selector:
+    app: faces-backend
