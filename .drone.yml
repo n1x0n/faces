@@ -1,0 +1,11 @@
+kind: pipeline
+type: docker
+name: default
+steps:
+  - name: build
+    image: python:3-alpine
+    pull: always
+    commands:
+      - apk add --no-cache wget
+      - apk add --no-cache bash
+      - pip install -r requirements.txt
