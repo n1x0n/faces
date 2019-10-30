@@ -95,7 +95,7 @@
                         are built using disaggregated micro services and also because I wanted an excuse to use Istio in my deployment.
                     </p>
                     <p>
-                        Whenever an image is uploaded it gets sent to the backend which then stores into a predefined bucket in NetApp StorageGRID. This bucket has been configured to use notifications, so anytime a new file gets stored in the bucket a message gets sent to
+                        Whenever an image is uploaded it gets sent to the backend which then stores it in a predefined bucket in NetApp StorageGRID. This bucket has been configured to use notifications, so anytime a new file gets stored in the bucket a message gets sent to
                         <a href="https://aws.amazon.com/sns/">AWS Simple Notification Service</a>. This message triggers an <a href="https://aws.amazon.com/lambda/">AWS Lambda</a> script that sends a presigned url for the image to <a href="https://azure.microsoft.com/en-us/services/cognitive-services/face/">Azure Cognitive Services</a>.
                         Azure identifies faces in the image and returns a set of metadata to AWS Lambda. As a final step Lambda then tags the image with metadata in NetApp StorageGRID using the S3 protocol. The image never gets stored in the cloud, but
                         for a brief moment it is made accessible to public cloud services. The same workflow could be used for any type of data with any type of cloud service which makes it pretty useful.
@@ -126,12 +126,6 @@
                 </div>
             </div>
         </div>
-
-        {% if infopanel %}
-        <div class="containter" id="infopanel">
-            <p>{{ infopanel }}</p>
-        </div>
-        {% endif %}
 
         <div class="modal" id="imageinfo" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">

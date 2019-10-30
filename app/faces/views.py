@@ -50,19 +50,16 @@ def appmeta():
 @app.route('/upload', methods=['POST'])
 def upload():
     if request.method == 'POST':
-        infopanel = False
 
         imagedata = request.form['imagedata']
 
         if not imagedata:
-            infopanel = "No image received"
-            return render_template('index.html', infopanel=infopanel)
+            return render_template('index.html')
 
         header, encoded = imagedata.split(",", 1)
 
         if not header == "data:image/png;base64":
-            infopanel = "No image in data url"
-            return render_template('index.html', infopanel=infopanel)
+            return render_template('index.html')
 
         data = b64decode(encoded)
         timestamp = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')

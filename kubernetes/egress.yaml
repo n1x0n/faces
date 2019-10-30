@@ -1,0 +1,60 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: webscaledemo
+spec:
+  hosts:
+  - "webscaledemo.netapp.com"
+  ports:
+  - number: 443
+    name: tls
+    protocol: TLS
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: webscaledemo
+spec:
+  hosts:
+  - "webscaledemo.netapp.com"
+  tls:
+  - match:
+    - port: 443
+      sni_hosts:
+      - "webscaledemo.netapp.com"
+    route:
+    - destination:
+        host: "webscaledemo.netapp.com"
+        port:
+          number: 443
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: wikimedia
+spec:
+  hosts:
+  - "*.wikimedia.org"
+  ports:
+  - number: 443
+    name: tls
+    protocol: TLS
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: wikimedia
+spec:
+  hosts:
+  - "*.wikimedia.org"
+  tls:
+  - match:
+    - port: 443
+      sni_hosts:
+      - "*.wikimedia.org"
+    route:
+    - destination:
+        host: "*.wikimedia.org"
+        port:
+          number: 443

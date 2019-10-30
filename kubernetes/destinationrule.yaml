@@ -1,0 +1,20 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  generation: 1
+  name: spccc-reviews-tls-origination
+  namespace: ""
+  resourceVersion: ""
+  selfLink: /apis/networking.istio.io/v1alpha3/namespaces/default/destinationrules/spccc-reviews-tls-origination
+  uid: ""
+spec:
+  host: svc.nety4u4zwg.remote
+  trafficPolicy:
+    portLevelSettings:
+    - port:
+        number: 443
+      tls:
+        caCertificates: /etc/certs/cert-chain.pem
+        clientCertificate: /etc/certs/cert-chain.pem
+        mode: MUTUAL
+        privateKey: /etc/certs/key.pem
