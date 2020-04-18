@@ -24,7 +24,7 @@ steps:
         from_secret: registry_password
       repo: registry.phight.club/phight/faces-frontend
       registry: registry.phight.club
-      dockerfile: k8s/Dockerfile.frontend
+      dockerfile: kubernetes/Dockerfile.frontend
 
   - name: Build new docker image for backend
     image: plugins/docker
@@ -35,7 +35,7 @@ steps:
         from_secret: registry_password
       repo: registry.phight.club/phight/faces-backend
       registry: registry.phight.club
-      dockerfile: k8s/Dockerfile.backend
+      dockerfile: kubernetes/Dockerfile.backend
 
   # - name: Deploy test environment
   #   when:
