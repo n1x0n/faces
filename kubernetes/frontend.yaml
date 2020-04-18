@@ -31,13 +31,13 @@ spec:
         app: faces-frontend
     spec:
       imagePullSecrets:
-      - name: regcred
+        - name: regcred
       containers:
-      - name: faces-frontend
-        image: registry.phight.club/fredrik/faces-frontend:2
-        ports:
-        - containerPort: 80
-          protocol: TCP
+        - name: faces-frontend
+          image: registry.phight.club/phight/faces-frontend:3
+          ports:
+            - containerPort: 80
+              protocol: TCP
       restartPolicy: Always
 ---
 apiVersion: v1

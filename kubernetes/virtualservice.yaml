@@ -4,30 +4,30 @@ metadata:
   labels:
     app: faces
   name: faces
-  namespace: default
+  namespace: faces-frontend
 spec:
   gateways:
-  - faces-gateway
+    - faces-gateway
   hosts:
-  - faces.phight.club
+    - faces.phight.club
   http:
-  - match:
-    - uri:
-        prefix: "/api/"
-    rewrite:
-      uri: "/"
-    route:
-    - destination:
-        host: faces-backend.faces-backend.svc.cluster.local
-        port:
-          number: 5000
-  - match:
-    - uri:
-        prefix: "/"
-    - uri:
-        prefix: "/static"
-    route:
-    - destination:
-        host: faces-frontend.faces-frontend.svc.cluster.local
-        port:
-          number: 8080
+    - match:
+        - uri:
+            prefix: "/api/"
+      rewrite:
+        uri: "/"
+      route:
+        - destination:
+            host: faces-backend.faces-backend.svc.cluster.local
+            port:
+              number: 5000
+    - match:
+        - uri:
+            prefix: "/"
+        - uri:
+            prefix: "/static"
+      route:
+        - destination:
+            host: faces-frontend.faces-frontend.svc.cluster.local
+            port:
+              number: 8080

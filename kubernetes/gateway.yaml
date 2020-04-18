@@ -4,14 +4,14 @@ metadata:
   labels:
     app: faces
   name: faces-gateway
-  namespace: default
+  namespace: faces-frontend
 spec:
   selector:
     istio: ingressgateway
   servers:
-  - hosts:
-    - faces.phight.club
-    port:
-      name: http
-      number: 80
-      protocol: HTTP
+    - hosts:
+        - faces.phight.club
+      port:
+        name: http
+        number: 80
+        protocol: HTTP

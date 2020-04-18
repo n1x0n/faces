@@ -1,11 +1,136 @@
+---
 kind: pipeline
 type: docker
-name: default
+name: Build new image
+
 steps:
-  - name: build
-    image: python:3-alpine
-    pull: always
+  - name: Set image tag
+    image: alpine:latest
+    pull: if-not-exists
     commands:
-      - apk add --no-cache wget
-      - apk add --no-cache bash
-      - pip install -r requirements.txt
+      - env
+      - echo -n "latest" > .tags
+      - if [[ "${DRONE_TARGET_BRANCH}" == "master" && "${DRONE_BUILD_EVENT}" == "push" ]]; then echo -n "latest" > .tags; fi;
+      - if [[ "${DRONE_TARGET_BRANCH}" != "master" && "${DRONE_BUILD_EVENT}" == "push" ]]; then echo -n "${CI_COMMIT_SHA:0:8}" > .tags; fi;
+      - if [[ "${DRONE_BUILD_EVENT}" == "tag" ]]; then echo -n "${DRONE_COMMIT_REF##*/}" > .tags; fi;
+      - cat .tags
+
+  - name: Build new docker image for frontend
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: registry_username
+      password:
+        from_secret: registry_password
+      repo: registry.phight.club/phight/faces-frontend
+      registry: registry.phight.club
+      dockerfile: k8s/Dockerfile.frontend
+
+  - name: Build new docker image for backend
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: registry_username
+      password:
+        from_secret: registry_password
+      repo: registry.phight.club/phight/faces-backend
+      registry: registry.phight.club
+      dockerfile: k8s/Dockerfile.backend
+
+  # - name: Deploy test environment
+  #   when:
+  #     branch:
+  #       exclude:
+  #         - master
+  #     event:
+  #       include:
+  #         - push
+  #   image: alpine:latest
+  #   pull: if-not-exists
+  #   environment:
+  #     KUBECONFIGCONTENT:
+  #       from_secret: kubeconfig
+  #   commands:
+  #     - cat k8s/test.yaml | sed 's/##COMMIT##/${CI_COMMIT_SHA:0:8}/g' > deploy_test.yaml
+  #     - mkdir -p $HOME/.kube
+  #     - echo "$KUBECONFIGCONTENT" > $HOME/.kube/config
+  #     - apk add curl
+  #     - curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+  #     - chmod 755 kubectl
+  #     - ./kubectl config get-contexts
+  #     - ./kubectl apply -f deploy_test.yaml
+
+  # - name: Prepare test notification
+  #   when:
+  #     branch:
+  #       exclude:
+  #         - master
+  #     event:
+  #       include:
+  #         - push
+  #   image: registry.phight.club/phight/discord:3
+  #   pull: if-not-exists
+  #   commands:
+  #     - export CI_SERVER_PROTO="$( echo ${DRONE_GIT_HTTP_URL} | sed 's/:.*//' )"
+  #     - export CI_SERVER_HOST="$( echo ${DRONE_GIT_HTTP_URL} | sed 's/.*\\/\\///' | sed 's/\\/.*//' )"
+  #     - if [[ ! -z "$DRONE_TARGET_BRANCH" ]]; then export BRANCH=":$DRONE_TARGET_BRANCH"; else export BRANCH=""; fi
+  #     - echo "Hi **${DRONE_COMMIT_AUTHOR}**! Your ${CI_BUILD_EVENT} to ${DRONE_REPO}$BRANCH has been built." >> .message
+  #     - echo "You can delete your test environment with:" >> .message
+  #     - echo "$(cat /app/backtick)bash" >> .message
+  #     - echo "kubectl delete service,deployment,virtualservice,pvc,configmap -l drone==${CI_COMMIT_SHA:0:8} --all-namespaces" >> .message
+  #     - echo "$(cat /app/backtick)" >> .message
+  #     - echo "Test environment for build [${DRONE_REPO}$BRANCH:${DRONE_BUILD_NUMBER}](https://browserquest-${CI_COMMIT_SHA:0:8}.app.phight.club)" >> .description
+  #     - echo "" >> .description
+  #     - echo "Commit [${CI_COMMIT_SHA:0:8}](${DRONE_COMMIT_LINK}) by [${DRONE_COMMIT_AUTHOR_NAME}]($CI_SERVER_PROTO://$CI_SERVER_HOST/${DRONE_COMMIT_AUTHOR}):" >> .description
+  #     - echo "*$( echo -n "$( printf ${CI_COMMIT_MESSAGE} )" )*" >> .description
+
+  - name: Prepare master notification
+    when:
+      branch:
+        include:
+          - master
+      event:
+        include:
+          - push
+    image: alpine:latest
+    pull: if-not-exists
+    commands:
+      - export CI_SERVER_PROTO="$( echo ${DRONE_GIT_HTTP_URL} | sed 's/:.*//' )"
+      - export CI_SERVER_HOST="$( echo ${DRONE_GIT_HTTP_URL} | sed 's/.*\\/\\///' | sed 's/\\/.*//' )"
+      - if [[ ! -z "$DRONE_TARGET_BRANCH" ]]; then export BRANCH=":$DRONE_TARGET_BRANCH"; else export BRANCH=""; fi
+      - echo "Hi **${DRONE_COMMIT_AUTHOR}**! Your ${CI_BUILD_EVENT} to ${DRONE_REPO}$BRANCH has been built." >> .message
+      - echo "Commit [${CI_COMMIT_SHA:0:8}](${DRONE_COMMIT_LINK}) by [${DRONE_COMMIT_AUTHOR_NAME}]($CI_SERVER_PROTO://$CI_SERVER_HOST/${DRONE_COMMIT_AUTHOR}):" >> .description
+      - echo "*$( echo -n "$( printf ${CI_COMMIT_MESSAGE} )" )*" >> .description
+
+  - name: Prepare tag notification
+    when:
+      event:
+        include:
+          - tag
+    image: alpine:latest
+    pull: if-not-exists
+    commands:
+      - export CI_SERVER_PROTO="$( echo ${DRONE_GIT_HTTP_URL} | sed 's/:.*//' )"
+      - export CI_SERVER_HOST="$( echo ${DRONE_GIT_HTTP_URL} | sed 's/.*\\/\\///' | sed 's/\\/.*//' )"
+      - echo "Hi **${DRONE_COMMIT_AUTHOR}**! Your tag ${DRONE_COMMIT_REF##*/} of ${DRONE_REPO} has been built and the image has been pushed to registry." >> .message
+      - echo "Commit [${CI_COMMIT_SHA:0:8}](${DRONE_COMMIT_LINK}) by [${DRONE_COMMIT_AUTHOR_NAME}]($CI_SERVER_PROTO://$CI_SERVER_HOST/${DRONE_COMMIT_AUTHOR}):" >> .description
+      - echo "*$( echo -n "$( printf ${CI_COMMIT_MESSAGE} )" )*" >> .description
+
+  - name: Send Discord notification
+    image: registry.phight.club/phight/discord:3
+    pull: if-not-exists
+    environment:
+      WEBHOOK:
+        from_secret: discord_webhook_url
+    commands:
+      - if [[ ! -z "$DRONE_TARGET_BRANCH"]]; then export BRANCH=":$DRONE_TARGET_BRANCH"; else export BRANCH=""; fi
+      - >
+        discord.sh
+        --webhook-url=$WEBHOOK
+        --text "$(jq -Rs . <.message | cut -c 2- | rev | cut -c 2- | rev)"
+        --title "Build ${DRONE_REPO}$BRANCH:${DRONE_BUILD_NUMBER}"
+        --description "$(jq -Rs . <.description | cut -c 2- | rev | cut -c 2- | rev)"
+        --thumbnail ${DRONE_COMMIT_AUTHOR_AVATAR}
+        --color "0xFFFFFF"
+        --url "${DRONE_BUILD_LINK}"
+        --timestamp
