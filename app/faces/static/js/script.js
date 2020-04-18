@@ -23,7 +23,7 @@ $(document).ready(function() {
                             break;
                     }
                 });
-                console.log("Degrees: " + degrees);
+                alert("Degrees: " + degrees);
                 resizeImage(reader.result, 480, degrees, function(newurl) {
                     $('#preview').attr("src", newurl);
                     $("#uploaderror").addClass("d-none");
