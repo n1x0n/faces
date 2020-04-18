@@ -210,7 +210,7 @@ function resizeImage(url, size, degrees, callback) {
         canvas.width = size;
         var ctx = canvas.getContext("2d");
         ctx.setTransform(scaleX, 0, 0, scaleY, Math.round(canvas.width / 2), Math.round(canvas.height / 2));
-        ctx.rotate(degrees * Math.PI / 180);
+        //ctx.rotate(degrees * Math.PI / 180);
         ctx.drawImage(sourceImage, drawx, drawy);
 
         // Convert the canvas to a data URL in PNG format

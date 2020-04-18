@@ -34,7 +34,8 @@ spec:
         - name: regcred
       containers:
         - name: faces-frontend
-          image: registry.phight.club/phight/faces-frontend:3
+          image: registry.phight.club/phight/faces-frontend:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
               protocol: TCP
