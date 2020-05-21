@@ -53,7 +53,7 @@ spec:
                   key: secret
                   name: faces-backend.s3keys
           name: faces-backend
-          image: registry.phight.club/phight/faces-backend:1
+          image: registry.phight.club/phight/faces-backend:4.0.0
           ports:
             - containerPort: 5000
               protocol: TCP
