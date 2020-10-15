@@ -41,7 +41,7 @@ spec:
             - name: APPNAME
               value: NetApp Faces
             - name: APPLOGO
-              value: https://upload.wikimedia.org/wikipedia/en/8/87/Netapp_logo.svg
+              value: https://cdn.iconscout.com/icon/free/png-512/netapp-555412.png
             - name: ACCESS_KEY
               valueFrom:
                 secretKeyRef:
@@ -53,10 +53,11 @@ spec:
                   key: secret
                   name: faces-backend.s3keys
           name: faces-backend
-          image: registry.phight.club/phight/faces-backend:4.0.0
+          image: n1x0n/faces-backend:1
           ports:
             - containerPort: 5000
               protocol: TCP
+              name: http-web
       restartPolicy: Always
 ---
 apiVersion: v1
@@ -69,8 +70,7 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - name: http
-      protocol: TCP
+    - name: http-web
       port: 5000
       targetPort: 5000
   selector:
