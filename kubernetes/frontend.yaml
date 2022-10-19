@@ -4,7 +4,6 @@ kind: Namespace
 metadata:
   labels:
     app: faces-frontend
-    istio-injection: enabled
     name: faces-frontend
   name: faces-frontend
 ---
@@ -34,7 +33,7 @@ spec:
         - name: regcred
       containers:
         - name: faces-frontend
-          image: n1x0n/faces-frontend:1
+          image: registry.phight.club/dockerhub/n1x0n/faces-frontend:1
           ports:
             - containerPort: 80
               protocol: TCP

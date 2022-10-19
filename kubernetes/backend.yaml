@@ -4,7 +4,6 @@ kind: Namespace
 metadata:
   labels:
     app: faces-backend
-    istio-injection: enabled
     name: faces-backend
   name: faces-backend
 ---
@@ -53,7 +52,7 @@ spec:
                   key: secret
                   name: faces-backend.s3keys
           name: faces-backend
-          image: n1x0n/faces-backend:1
+          image: registry.phight.club/dockerhub/n1x0n/faces-backend:1
           ports:
             - containerPort: 5000
               protocol: TCP

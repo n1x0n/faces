@@ -1,0 +1,51 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  labels:
+    app: faces
+  name: faces-frontend
+  namespace: faces-frontend
+spec:
+  entryPoints:
+  - web
+  routes:
+  - kind: Rule
+    match: Host(`faces.phight.club`)
+    services:
+    - kind: Service
+      name: faces-frontend
+      namespace: faces-frontend
+      port: 8080
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  labels:
+    app: faces
+  name: faces-backend
+  namespace: faces-backend
+spec:
+  entryPoints:
+  - web
+  routes:
+  - kind: Rule
+    match: Host(`faces.phight.club`) && PathPrefix(`/api`)
+    services:
+    - kind: Service
+      name: faces-backend
+      namespace: faces-backend
+      port: 5000
+    middlewares:
+      - name: api-stripprefix
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: api-stripprefix
+  labels:
+    app: faces
+  namespace: faces-backend
+spec:
+  stripPrefix:
+    prefixes:
+      - /api
